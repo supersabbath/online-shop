@@ -9,7 +9,7 @@ class Api {
         return new Promise((resolve, reject) => {
 
             setTimeout(() => {
-                let res = sampleProducts.filter(x => x.id === id);
+                let res = sampleProducts.filter(x => x.id === parseInt(id, 10));
                 resolve(res.length === 0 ? null : res[0]);
 
             }, 500)

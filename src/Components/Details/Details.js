@@ -43,14 +43,14 @@ class ConnectedDetails extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.fetchProductUsingID(parseInt(nextProps.match.params.id, 10));
+        this.fetchProductUsingID(nextProps.match.params.id);
     }
 
     componentDidMount() {
-        this.fetchProductUsingID(parseInt(this.props.match.params.id, 10));
+        this.fetchProductUsingID(this.props.match.params.id);
     }
 
-    // Some product information contains markup, we use Remarkable for this.
+    // Product information contains markup, we use Remarkable for this.
     getRawMarkup(data) {
         const md = new Remarkable();
         return { __html: md.render(data) };
@@ -64,16 +64,16 @@ class ConnectedDetails extends Component {
 
 
         return (
-            <div className="details-page">
+            <div style={{ padding: 10 }}>
 
-                <div style={{ color: "#504F5A", fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
+                <div style={{ marginBottom: 10, padding: 5, backgroundColor: "#FAFAFB", border: "1px solid lightgray", fontSize: 20, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
                     {this.state.item.name}
                 </div>
-                <div className="details-page-content">
-                    <div style={{ margin: 5, width: 290, height: 290, padding: 2, border: "1px solid lightgray", borderRadius: 5 }}>
+                <div style={{ display: "flex" }}>
+                    <div style={{ width: 290, height: 290, padding: 5, border: "1px solid lightgray", borderRadius: 5 }}>
                         <img alt={this.state.item.name} style={{ objectFit: "contain", height: "100%", width: "100%" }} src={this.state.item.imageURL} />
                     </div>
-                    <div style={{ flex: 1, marginLeft: 30, display: "flex", flexDirection: "column" }}>
+                    <div style={{ flex: 1, marginLeft: 20, display: "flex", flexDirection: "column" }}>
                         <div style={{ fontSize: 18, marginTop: 10 }}>Price: {this.state.item.price} $</div>
                         {this.state.item.popular && <span style={{ color: "#1a9349", fontWeight: "bold", marginTop: 5, fontSize: 14 }}>(Popular product)</span>}
 
@@ -96,21 +96,20 @@ class ConnectedDetails extends Component {
                     </div>
                 </div>
 
-                <div style={{ color: "#504F5A", fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
-                    Description
+                <div style={{ marginBottom: 10, marginTop: 10, padding: 5, backgroundColor: "#FAFAFB", border: "1px solid lightgray", fontSize: 20, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
+                    Product Description
                  </div>
 
-                <div style={{ color: "gray", marginTop: 5, marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
+                <div style={{ color: "gray", marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
 
 
-                <div style={{ color: "#504F5A", marginTop: 10, fontSize: 20, marginRight: 15, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
+                <div style={{ marginBottom: 10, marginTop: 10, padding: 5, backgroundColor: "#FAFAFB", border: "1px solid lightgray", fontSize: 20, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
                     Related Items
                  </div>
 
                 <div style={{
                     overflow: "auto",
                     whiteSpace: "nowrap",
-                    marginTop: 5,
                     width: "100%",
                 }} cols={3}>
                     {this.state.relatedItems.length === 0 ? <span style={{ fontSize: 13, color: "gray", marginLeft: 10 }}>Not available</span> :

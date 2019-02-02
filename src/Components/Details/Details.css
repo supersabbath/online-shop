@@ -1,19 +1,5 @@
-.details-page {
-    flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
-    height: 100%;
-    padding:10px;
- }
-
-.details-page-header {
-    width: 100%;
-}
-
-.details-page-content {
-    display: flex;
-    padding: 20px;
-}
+ 
+ 
 
 .circular {
     position: absolute;

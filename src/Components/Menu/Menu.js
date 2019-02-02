@@ -115,7 +115,7 @@ class ConnectedMenu extends Component {
                                             }
                                         })
                                     }}
-                                    style={{}}>
+                                   >
 
                                     <div style={{ padding: 10, height: 20, fontSize:14, display: "flex", alignItems: "center", cursor: "pointer" }}>
                                         <span style={{ flex: 1 }}>{x.name}</span>
