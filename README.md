@@ -6,7 +6,7 @@ Redux, React router, and React Material UI library.
 <img src="https://raw.githubusercontent.com/giorgi-m/online-shop/master/src/Images/screenshot.PNG" width="820" height="420">
  
 
-Some features include:
+Features:
 - Search products using keyword and/or category
 - Quick access to all products in given category (accessible from menu on the left)
 - Filter and sort products using price
