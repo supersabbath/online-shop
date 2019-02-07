@@ -66,7 +66,7 @@ class ConnectedDetails extends Component {
         return (
             <div style={{ padding: 10 }}>
 
-                <div style={{ marginBottom: 10, padding: 5, backgroundColor: "#FAFAFB", border: "1px solid lightgray", fontSize: 20, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
+                <div style={{ color:"#504F5A", marginTop:25, marginBottom:25, fontSize: 20,  }}>
                     {this.state.item.name}
                 </div>
                 <div style={{ display: "flex" }}>
@@ -86,7 +86,7 @@ class ConnectedDetails extends Component {
                                 if (val < 1 || val > 10) return;
                                 this.setState({ quantity: val.toString() })
                             }}></TextField>
-                        <Button style={{ width: 200, marginTop: 20 }} color="primary" variant="contained"
+                        <Button style={{ width: 200, marginTop: 5 }} color="primary" variant="outlined"
                             onClick={() => {
                                 this.props.dispatch(addItemInCart({ ...this.state.item, quantity: parseInt(this.state.quantity) }));
                             }}>
@@ -96,14 +96,14 @@ class ConnectedDetails extends Component {
                     </div>
                 </div>
 
-                <div style={{ marginBottom: 10, marginTop: 10, padding: 5, backgroundColor: "#FAFAFB", border: "1px solid lightgray", fontSize: 20, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
+                <div style={{ color:"#504F5A", marginTop:30, marginBottom:30, fontSize: 20,  }}>
                     Product Description
                  </div>
 
                 <div style={{ color: "gray", marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
 
 
-                <div style={{ marginBottom: 10, marginTop: 10, padding: 5, backgroundColor: "#FAFAFB", border: "1px solid lightgray", fontSize: 20, lineHeight: "50px", height: 50, borderRadius: "5px" }}>
+                <div style={{ color:"#504F5A", marginTop:30, marginBottom:30, fontSize: 20,  }}>
                     Related Items
                  </div>
 

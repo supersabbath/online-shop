@@ -56,17 +56,7 @@ const sampleProducts = [
     popular: true,
     imageURL: "https://images-na.ssl-images-amazon.com/images/I/71kgK6fAvtL._SL1500_.jpg"
   },
-  {
-    id: 6,
-    name: "Table Lamp USB",
-    category: "Home",
-    price: 200,
-    description:
-      '* Funtinal Table Lamp--Be tried of getting up to find a socket to charge your phone when you lay on the bed? Get Seealle USB bedside table lamp will be a smart choice,the base of this table lamp contains a USB charging port, convient to charge your mobile phones, tablets, kindle readers, laptops, and other electronic devices.',
-
-    popular: true,
-    imageURL: "https://images-na.ssl-images-amazon.com/images/I/71kJUODeaKL._SL1500_.jpg"
-  },
+ 
   {
     id: 7,
     name: "Swatch Skin",
@@ -115,7 +105,30 @@ const sampleProducts = [
   },
 ];
 
-// Extract list of categories from products.
-const categoryNames  = ["All categories", ...sampleProducts.map(x => x.category).filter((value, index, self) => self.indexOf(value) === index)]
- 
- export { sampleProducts, categoryNames }
+
+const categories = [
+  {
+    name: "All categories",
+    icon: "fas fa-list"
+  },
+  {
+    name: "Clothing and Shoes",
+    icon: "fas fa-tshirt"
+  },
+  {
+    name: "Jewelry and Watches",
+    icon: "far fa-gem"
+  },
+  {
+    name: "Books",
+    icon:"fas fa-book"
+  },
+  {
+    name: "Computers",
+    icon: "fas fa-desktop"
+  },
+]
+
+
+
+export { sampleProducts, categories }

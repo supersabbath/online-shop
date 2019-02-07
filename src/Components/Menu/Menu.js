@@ -4,10 +4,12 @@ import { NavLink } from 'react-router-dom'
 import queryString from 'query-string'
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom'
-import { categoryNames } from "../../Data"
+import { categories } from "../../Data"
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
- 
+import { loadCSS } from 'fg-loadcss/src/loadCSS';
+import Icon from '@material-ui/core/Icon';
+
 
 const mapStateToProps = state => {
     return { showMenu: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
@@ -19,13 +21,13 @@ const mapStateToProps = state => {
 const generateMenuModel = (categories) => {
     let menuModel = [
         { type: "title", name: "Main", id: 0 },
-        { type: "item", name: "Home page", url: "/", parentID: 0, id: 1 },
+        { type: "item", name: "Home page", url: "/", parentID: 0, id: 1, icon:"fas fa-home" },
         { type: "title", name: "Product categories", id: 2 },
     ];
 
     menuModel = menuModel.concat(categories.map((x, i) => {
         return {
-            name: x, url: "/search/?category=" + x, id: 4 + i, type: "item", parentID: 2
+            name: x.name, url: "/search/?category=" + x.name, id: 4 + i, type: "item", parentID: 2, icon: x.icon
         }
     }))
 
@@ -38,7 +40,7 @@ class ConnectedMenu extends Component {
     constructor(props) {
         super(props);
 
-        let menuItems = generateMenuModel(categoryNames);
+        let menuItems = generateMenuModel(categories);
 
         // Title items in menu are expandable. Initially, they are all set to expanded.
         let initialExpandedState = {};
@@ -52,6 +54,12 @@ class ConnectedMenu extends Component {
         }
 
     }
+
+    componentDidMount() {
+        loadCSS('https://use.fontawesome.com/releases/v5.1.0/css/all.css');
+    }
+
+
     render() {
         if (!this.props.showMenu) return null;
         return (
@@ -63,7 +71,7 @@ class ConnectedMenu extends Component {
                         // For a menu item to be visible, it must either be a title,
                         // or its parent must be in expanded state and plus user must be allowed to see it.     
                         return (y.parentID === undefined || (this.state.expanded[y.parentID] && (!y.protected || this.props.loggedInUser)));
-                    
+
                     }).map((x, i) => {
 
                         if (x.type === "item") {
@@ -93,10 +101,12 @@ class ConnectedMenu extends Component {
                                     }}
                                     activeStyle={{
                                         color: "#4282ad",
-                                        textDecoration: "underline"
-                                    }}
+                                     }}
                                 >
-                                    <div className="menuItem">{x.name}</div>
+                                    <div className="menuItem">
+                                        <Icon className={x.icon} style={{fontSize:22, width:25, marginRight:10}} />
+                                        {x.name}
+                                    </div>
 
                                 </NavLink></div>);
                         } else if (x.type === "title") {
@@ -115,11 +125,11 @@ class ConnectedMenu extends Component {
                                             }
                                         })
                                     }}
-                                   >
+                                >
 
-                                    <div style={{ padding: 10, height: 20, fontSize:14, display: "flex", alignItems: "center", cursor: "pointer" }}>
+                                    <div style={{ padding: 10, height: 20, fontSize: 14, display: "flex", alignItems: "center", cursor: "pointer" }}>
                                         <span style={{ flex: 1 }}>{x.name}</span>
-                                        {this.state.expanded[x.id] ? <ExpandLess   /> : <ExpandMore   />}
+                                        {this.state.expanded[x.id] ? <ExpandLess /> : <ExpandMore />}
                                     </div>
 
                                 </div>);

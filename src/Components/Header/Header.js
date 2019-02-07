@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { showCartDlg, toggleMenu, setLoggedInUser } from "../../Redux/Actions"
 import cartImage from "../../Images/logo2.png"
 import Auth from "../../Auth"
-import { categoryNames } from "../../Data"
+import { categories } from "../../Data"
 import Person from '@material-ui/icons/PersonOutline';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
@@ -24,8 +24,8 @@ const mapStateToProps = state => {
     return { nrOfItemsInCard: state.cartItems.length, loggedInUser: state.loggedInUser, };
 };
 
-const categoryOptions = categoryNames.map(x => {
-    return <MenuItem key={x} value={x}>{x}</MenuItem>
+const categoryOptions = categories.map(x => {
+    return <MenuItem key={x.name} value={x.name}>{x.name}</MenuItem>
 
 })
 
@@ -33,7 +33,7 @@ class ConnectedHeader extends Component {
     state = {
         searchTerm: "",
         anchorEl: null,
-        categoryFilter: categoryNames[0]
+        categoryFilter: categories[0].name
     }
 
     render() {
