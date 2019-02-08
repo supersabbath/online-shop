@@ -15,19 +15,16 @@ const mapStateToProps = state => {
     return { showMenu: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
 };
 
-// The menu UI is created from some data.
-// This function creates such data.
-// Should be noted both data and menu are pretty ad hoc.
+// This function generates data model for the menu.
 const generateMenuModel = (categories) => {
     let menuModel = [
-        { type: "title", name: "Main", id: 0 },
-        { type: "item", name: "Home page", url: "/", parentID: 0, id: 1, icon:"fas fa-home" },
-        { type: "title", name: "Product categories", id: 2 },
+        { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
+        { type: "title", name: "Product categories", id: 1 },
     ];
 
     menuModel = menuModel.concat(categories.map((x, i) => {
         return {
-            name: x.name, url: "/search/?category=" + x.name, id: 4 + i, type: "item", parentID: 2, icon: x.icon
+            name: x.name, url: "/search/?category=" + x.name, id: 2 + i, type: "item", parentID: 1, icon: x.icon
         }
     }))
 
@@ -67,16 +64,13 @@ class ConnectedMenu extends Component {
                 {
 
                     this.state.menuItems.filter(y => {
-
-                        // For a menu item to be visible, it must either be a title,
-                        // or its parent must be in expanded state and plus user must be allowed to see it.     
-                        return (y.parentID === undefined || (this.state.expanded[y.parentID] && (!y.protected || this.props.loggedInUser)));
-
+                        // Filter some menu items before showing them.
+                        return (y.type === "title" || ((!y.parentID || this.state.expanded[y.parentID]) && (!y.protected || this.props.loggedInUser)));
                     }).map((x, i) => {
 
                         if (x.type === "item") {
 
-                            return (<div key={x.id} style={{ margin: 5 }}>
+                            return (<div key={x.id} style={{ margin: 5, marginLeft:10 }}>
                                 <NavLink
                                     to={x.url}
                                     exact
@@ -101,10 +95,10 @@ class ConnectedMenu extends Component {
                                     }}
                                     activeStyle={{
                                         color: "#4282ad",
-                                     }}
+                                    }}
                                 >
                                     <div className="menuItem">
-                                        <Icon className={x.icon} style={{fontSize:22, width:25, marginRight:10}} />
+                                        <Icon className={x.icon} style={{ fontSize: 22, width: 25, marginRight: 10 }} />
                                         {x.name}
                                     </div>
 

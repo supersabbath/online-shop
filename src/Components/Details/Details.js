@@ -75,7 +75,7 @@ class ConnectedDetails extends Component {
                     </div>
                     <div style={{ flex: 1, marginLeft: 20, display: "flex", flexDirection: "column" }}>
                         <div style={{ fontSize: 18, marginTop: 10 }}>Price: {this.state.item.price} $</div>
-                        {this.state.item.popular && <span style={{ color: "#1a9349", fontWeight: "bold", marginTop: 5, fontSize: 14 }}>(Popular product)</span>}
+                        {this.state.item.popular && <span style={{ color: "#1a9349", marginTop: 5, fontSize: 14 }}>(Popular product)</span>}
 
                         <TextField type="number"
                             value={this.state.quantity}

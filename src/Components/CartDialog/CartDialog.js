@@ -11,7 +11,8 @@ import { showCartDlg, setCheckedOutItems } from "../../Redux/Actions"
 import { withRouter } from 'react-router-dom'
 import CartRow from "./CartRow"
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCartOutlined';
-
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const mapStateToProps = state => {
     return { open: state.showCartDialog, items: state.cartItems };
@@ -34,13 +35,14 @@ class ConnectedCartDialog extends Component {
                     onClose={() => {
                         this.props.dispatch(showCartDlg(false))
                     }}>
+                    <AppBar position="static" style={{ backgroundColor: "#3863aa" }}>
+                        <Toolbar>
+                            <ShoppingCartIcon fontSize="large" style={{  color: "white", marginRight: 10 }} />
+                            Shopping Cart
+                        </Toolbar>
+                    </AppBar>
 
-                    <div style={{ display: "flex", marginTop: 25 }}>
-                        <ShoppingCartIcon fontSize="large" style={{ marginLeft: 10, color: "#4282ad" }} />
-                        <div style={{ color:"#504F5A",marginTop: 10, marginLeft: 10, fontSize: 16  }}>Products in cart  </div>
-                    </div>
-
-                    <div style={{ minWidth: 300, maxHeight: 400, overflow: "auto" }}>
+                    <div style={{ minWidth: 300, maxHeight: 400, padding:10, overflow: "auto" }}>
                         <Table >
                             <TableHead>
                                 <TableRow>
@@ -59,7 +61,7 @@ class ConnectedCartDialog extends Component {
                     </div>
 
                     <div style={{ marginTop: 20 }}>
-                        <div style={{ color:"#504F5A", float: "left", margin: 10, marginTop: 20, fontSize: 20  }}> Total Price: {totalPrice} $</div>
+                        <div style={{ color: "#504F5A", float: "left", margin: 10, marginTop: 20, fontSize: 20 }}> Total Price: {totalPrice} $</div>
                         <Button style={{ float: "right", margin: 20 }}
                             variant="outlined"
                             color="primary"

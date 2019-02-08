@@ -3,6 +3,7 @@
 	border-right: 1px solid lightgray;
 	overflow-y: auto;
 	background-color: #FAFAFB;
+	padding-top:15px;
 }
 
 .menuItem {
@@ -10,9 +11,9 @@
 	height: 20px;
 	display: flex;
 	align-items: center;
- 	padding: 5px;
+	padding: 5px;
 }
 
 .menuItem:hover {
- 	color: #4282ad;
+	color: #4282ad;
 }
