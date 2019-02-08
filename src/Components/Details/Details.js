@@ -66,7 +66,7 @@ class ConnectedDetails extends Component {
         return (
             <div style={{ padding: 10 }}>
 
-                <div style={{ color:"#504F5A", marginTop:25, marginBottom:25, fontSize: 20,  }}>
+                <div style={{ color:"#504F5A", marginTop:15, marginBottom:20, fontSize: 20  }}>
                     {this.state.item.name}
                 </div>
                 <div style={{ display: "flex" }}>
@@ -96,14 +96,14 @@ class ConnectedDetails extends Component {
                     </div>
                 </div>
 
-                <div style={{ color:"#504F5A", marginTop:30, marginBottom:30, fontSize: 20,  }}>
+                <div style={{ color:"#504F5A", marginTop:30, marginBottom:20, fontSize: 20  }}>
                     Product Description
                  </div>
 
                 <div style={{ color: "gray", marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
 
 
-                <div style={{ color:"#504F5A", marginTop:30, marginBottom:30, fontSize: 20,  }}>
+                <div style={{ color:"#504F5A", marginTop:20, marginBottom:20, fontSize: 20  }}>
                     Related Items
                  </div>
 
