@@ -8,6 +8,10 @@ import Api from "../../Api"
 import Item from "../Item/Item";
 import { connect } from "react-redux";
 import TextField from '@material-ui/core/TextField';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Paper from '@material-ui/core/Paper';
 
 var Remarkable = require('remarkable');
 
@@ -62,16 +66,48 @@ class ConnectedDetails extends Component {
             return (<CircularProgress className="circular" />)
         }
 
+        let settings = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            focusOnSelect: false,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        };
+
+        let settingsRelatedItems = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            focusOnSelect: false,
+            slidesToShow: this.state.relatedItems.length < 3 ? this.state.relatedItems.length : 3,
+            slidesToScroll: this.state.relatedItems.length < 3 ? this.state.relatedItems.length : 3
+        };
 
         return (
-            <div style={{ padding: 10 }}>
-
-                <div style={{ color:"#504F5A", marginTop:15, marginBottom:20, fontSize: 20  }}>
+            <div className="details" style={{ padding: 10 }}>
+                <div style={{ color: "#504F5A", marginTop: 15, marginBottom: 20, fontSize: 20 }}>
                     {this.state.item.name}
                 </div>
                 <div style={{ display: "flex" }}>
-                    <div style={{ width: 290, height: 290, padding: 5, border: "1px solid lightgray", borderRadius: 5 }}>
-                        <img alt={this.state.item.name} style={{ objectFit: "contain", height: "100%", width: "100%" }} src={this.state.item.imageURL} />
+                    <div style={{ width: 290, height: 290, paddingLeft: 40, paddingRight: 40 }}>
+                        <Slider {...settings}>
+                            {this.state.item.imageUrls.map(x => {
+                                // NOTE: If I pass img directly instead of wrapping it in div, this component seems to mess up its styles. 
+                                return (
+                                    <div key={x}>
+                                        <img
+                                            alt="Item"
+                                            style={{
+                                                objectFit: "contain",
+                                                height: 290,
+                                                width: 290,
+                                            }} src={x} />
+                                    </div>
+
+                                )
+                            })}
+                        </Slider>
                     </div>
                     <div style={{ flex: 1, marginLeft: 20, display: "flex", flexDirection: "column" }}>
                         <div style={{ fontSize: 18, marginTop: 10 }}>Price: {this.state.item.price} $</div>
@@ -96,29 +132,32 @@ class ConnectedDetails extends Component {
                     </div>
                 </div>
 
-                <div style={{ color:"#504F5A", marginTop:30, marginBottom:20, fontSize: 20  }}>
+                <div style={{ color: "#504F5A", marginTop: 50, marginBottom: 10, fontSize: 20 }}>
                     Product Description
                  </div>
 
-                <div style={{ color: "gray", marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(this.state.item.description) : { __html: "Not available" }}></div>
+                {this.state.item.description ?
+                    <div style={{ color: "gray", marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={this.getRawMarkup(this.state.item.description)}></div> :
+                    <div style={{ color: "gray", marginTop: 20, marginBottom: 20, marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={{ __html: "Not available" }}></ div>
+                }
 
-
-                <div style={{ color:"#504F5A", marginTop:20, marginBottom:20, fontSize: 20  }}>
+                <div style={{ color: "#504F5A", marginTop: 10, marginBottom: 20, fontSize: 20 }}>
                     Related Items
                  </div>
 
-                <div style={{
-                    overflow: "auto",
-                    whiteSpace: "nowrap",
-                    width: "100%",
-                }} cols={3}>
-                    {this.state.relatedItems.length === 0 ? <span style={{ fontSize: 13, color: "gray", marginLeft: 10 }}>Not available</span> :
-                        this.state.relatedItems.map(item => (
-                            <span key={item.id} style={{ marginLeft: 50, marginRight: 50 }}>
-                                <Item item={item} />
-                            </span>
-                        ))}
-                </div>
+                {this.state.relatedItems.length === 0 ? <div style={{ fontSize: 13, color: "gray", marginLeft: 10, marginBottom: 10 }}>Not available</div> :
+                    <div style={{ width: 700, height: 320, paddingLeft: 40 }}>
+                        <Slider {...settingsRelatedItems}>
+                            {this.state.relatedItems.map(x => {
+                                return (
+                                    <Item key={x.id} item={x} />
+                                )
+                            })}
+                        </Slider>
+                    </div>
+                }
+
+
 
             </div >
 

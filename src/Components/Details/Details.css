@@ -1,5 +1,10 @@
- 
- 
+.slick-slide, .slick-slide * {
+    outline: none !important;
+}
+
+.slick-prev:before, .slick-next:before {
+    color: gray!important;
+}
 
 .circular {
     position: absolute;
