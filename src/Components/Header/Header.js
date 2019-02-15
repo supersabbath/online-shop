@@ -76,7 +76,7 @@ class ConnectedHeader extends Component {
                             {categoryOptions}
                         </Select>
 
-                        <Button style={{ marginLeft: 20, height: 10 }}
+                        <Button style={{ marginLeft: 20}}
                             variant="outlined"
                             color="primary"
 
@@ -89,7 +89,7 @@ class ConnectedHeader extends Component {
                         {!this.props.loggedInUser ?
                             (<Button
                                 variant="outlined"
-                                style={{ height: 40, marginRight: 20 }}
+                                style={{ marginRight: 20 }}
                                 color="primary"
                                 onClick={() => {
                                     this.props.history.push('/login');
