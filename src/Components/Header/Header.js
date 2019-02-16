@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { showCartDlg, toggleMenu, setLoggedInUser } from "../../Redux/Actions"
+import { showCartDlg, toggleMenu, setLoggedInUser, setCheckedOutItems } from "../../Redux/Actions"
 import cartImage from "../../Images/logo2.png"
 import Auth from "../../Auth"
 import { categories } from "../../Data"
@@ -126,6 +126,7 @@ class ConnectedHeader extends Component {
                             </MenuItem>
                             <MenuItem onClick={() => {
                                 Auth.signout(() => {
+                                    this.props.dispatch(setCheckedOutItems([]))
                                     this.props.dispatch(setLoggedInUser(null))
                                     this.props.history.push('/');
                                 })
