@@ -168,7 +168,7 @@ class ProductList extends Component {
                             <Tooltip title="Click to change range" disableFocusListener >
                                 <Button
                                     variant="outlined"
-                                    style={{ marginRight: 20, height: 10 }}
+                                    style={{ marginRight: 20 }}
                                     onClick={() => {
                                         this.setState({
                                             openPriceDialog: true
