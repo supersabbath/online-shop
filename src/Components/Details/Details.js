@@ -86,11 +86,14 @@ class ConnectedDetails extends Component {
 
         return (
             <div className="details" style={{ padding: 10 }}>
-                <div style={{ color: "#504F5A", marginTop: 15, marginBottom: 20, fontSize: 20 }}>
+                <div style={{ color: "#504F5A", marginTop: 15, marginBottom: 20, fontSize: 22 }}>
                     {this.state.item.name}
                 </div>
                 <div style={{ display: "flex" }}>
-                    <div style={{ width: 290, height: 290, paddingLeft: 40, paddingRight: 40 }}>
+                    <div style={{
+                        width: 290, height: 290, paddingTop: 5, paddingBottom: 5, paddingLeft: 40, paddingRight: 40, border: "1px solid lightgray",
+                        borderRadius: "5px"
+                    }}>
                         <Slider {...settings}>
                             {this.state.item.imageUrls.map(x => {
                                 // NOTE: If I pass img directly instead of wrapping it in div, this component seems to mess up its styles. 
@@ -122,7 +125,7 @@ class ConnectedDetails extends Component {
                                 if (val < 1 || val > 10) return;
                                 this.setState({ quantity: val.toString() })
                             }}></TextField>
-                        <Button style={{ width: 200, marginTop: 5 }} color="primary" variant="outlined"
+                        <Button style={{ width: 200, marginTop: 5 }} color="primary" variant="contained"
                             onClick={() => {
                                 this.props.dispatch(addItemInCart({ ...this.state.item, quantity: parseInt(this.state.quantity) }));
                             }}>
@@ -132,7 +135,7 @@ class ConnectedDetails extends Component {
                     </div>
                 </div>
 
-                <div style={{ color: "#504F5A", marginTop: 50, marginBottom: 10, fontSize: 20 }}>
+                <div style={{ color: "#504F5A", marginTop: 50, marginBottom: 10, fontSize: 22 }}>
                     Product Description
                  </div>
 
@@ -141,7 +144,7 @@ class ConnectedDetails extends Component {
                     <div style={{ color: "gray", marginTop: 20, marginBottom: 20, marginLeft: 5, maxHeight: 200, fontSize: 13, overflow: "auto" }} dangerouslySetInnerHTML={{ __html: "Not available" }}></ div>
                 }
 
-                <div style={{ color: "#504F5A", marginTop: 10, marginBottom: 20, fontSize: 20 }}>
+                <div style={{ color: "#504F5A", marginTop: 10, marginBottom: 20, fontSize: 22 }}>
                     Related Items
                  </div>
 
