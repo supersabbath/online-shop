@@ -11,7 +11,6 @@ import TextField from '@material-ui/core/TextField';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Paper from '@material-ui/core/Paper';
 
 var Remarkable = require('remarkable');
 
@@ -62,8 +61,12 @@ class ConnectedDetails extends Component {
 
     render() {
 
-        if (this.state.unfinishedTasks !== 0 || !this.state.item) {
+        if (this.state.unfinishedTasks !== 0) {
             return (<CircularProgress className="circular" />)
+        }
+
+        if(!this.state.item){
+            return null;
         }
 
         let settings = {
