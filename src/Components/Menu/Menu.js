@@ -15,20 +15,22 @@ const mapStateToProps = state => {
     return { showMenu: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
 };
 
-// This function generates data model for the menu.
-const generateMenuModel = (categories) => {
-    let menuModel = [
+// This function takes list of categories, and generates data which is needed for rendering menu.
+const menuDataFromCategories = (categories) => {
+    let menuData = [
         { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
         { type: "title", name: "Product categories", id: 1 },
     ];
 
-    menuModel = menuModel.concat(categories.map((x, i) => {
+    let initialLength = menuData.length;
+
+    menuData = menuData.concat(categories.map((x, i) => {
         return {
-            name: x.name, url: "/search/?category=" + x.name, id: 2 + i, type: "item", parentID: 1, icon: x.icon
+            name: x.name, url: "/search/?category=" + x.name, id: initialLength + i, type: "item", parentID: 1, icon: x.icon
         }
     }))
 
-    return menuModel;
+    return menuData;
 }
 
 
@@ -37,16 +39,16 @@ class ConnectedMenu extends Component {
     constructor(props) {
         super(props);
 
-        let menuItems = generateMenuModel(categories);
-
-        // Title items in menu are expandable. Initially, they are all set to expanded.
-        let initialExpandedState = {};
-        menuItems.forEach(y => {
-            if (y.type === "title") initialExpandedState[y.id] = true;
-        })
-
+        let menuItems = menuDataFromCategories(categories);
+ 
         this.state = {
-            expanded: initialExpandedState,
+            // This property keeps track of expanded items, initially let's set all title items to expanded.
+            expanded: menuItems.reduce((accum, current) => {
+                if (current.type === "title") {
+                    accum[current.id] = true;
+                }
+                return accum;
+            }, {}),
             menuItems
         }
 
@@ -70,7 +72,7 @@ class ConnectedMenu extends Component {
 
                         if (x.type === "item") {
 
-                            return (<div key={x.id} style={{ margin: 5, marginLeft:10 }}>
+                            return (<div key={x.id} style={{ margin: 5, marginLeft: 10 }}>
                                 <NavLink
                                     to={x.url}
                                     exact
