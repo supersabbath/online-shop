@@ -67,8 +67,11 @@ class Api {
                 let totalLength = data.length;
 
                 // Paging
-                data = data.slice((parseInt(page, 0) - 1) * itemsPerPage, parseInt(page, 0) * itemsPerPage)
-
+                page = parseInt(page, 0);
+                if (page) {
+                    data = data.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                }
+                
                 resolve({ data, totalLength })
 
 
