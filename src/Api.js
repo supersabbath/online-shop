@@ -36,14 +36,13 @@ class Api {
 
         return new Promise((resolve, reject) => {
 
-            if (typeof minPrice !== 'number') minPrice = parseInt(minPrice, 0);
-            if (typeof maxPrice !== 'number') maxPrice = parseInt(maxPrice, 0);
+            minPrice = parseInt(minPrice, 0);
+            maxPrice = parseInt(maxPrice, 0);
 
             setTimeout(() => {
 
                 let data = sampleProducts.filter(item => {
 
-                    // Check price filter first 
                     if (usePriceFilter && (item.price < minPrice || item.price > maxPrice)) {
                         return false;
                     }
@@ -67,11 +66,8 @@ class Api {
 
                 let totalLength = data.length;
 
-                // Implement paging 
-                if (page) {
-                    page = typeof (page) === "number" ? page : parseInt(page, 0);
-                    data = data.slice((page - 1) * itemsPerPage, page * itemsPerPage)
-                }
+                // Paging
+                data = data.slice((parseInt(page, 0) - 1) * itemsPerPage, parseInt(page, 0) * itemsPerPage)
 
                 resolve({ data, totalLength })
 

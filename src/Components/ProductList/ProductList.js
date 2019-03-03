@@ -132,7 +132,7 @@ class ProductList extends Component {
         this.updateURLAndRedirect({ sortValue: e.value })
     }
 
-    pageTitle() {
+    getPageTitle() {
         let pageTitle;
         if (this.getParamFromQS("category") === "popular") {
             pageTitle = "Popular products";
@@ -149,7 +149,7 @@ class ProductList extends Component {
         return (
             <div style={{ display: "flex", padding:10, flexDirection: "column", height:"100%" }}>
                 <div className="product-list-header">
-                    <div className="online-shop-title" style={{ flexGrow: 1 }}>{this.pageTitle()}</div>
+                    <div className="online-shop-title" style={{ flexGrow: 1 }}>{this.getPageTitle()}</div>
                     <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>
                         <FormControlLabel
                             style={{ marginBottom: 5 }}

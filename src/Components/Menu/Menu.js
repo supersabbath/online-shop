@@ -15,10 +15,10 @@ const mapStateToProps = state => {
     return { showMenu: state.showMenu, checkedOutItems: state.checkedOutItems, loggedInUser: state.loggedInUser };
 };
 
-// This function takes list of categories, and generates data which is needed for rendering menu.
+// Data needed for menu.
 const menuDataFromCategories = (categories) => {
     let menuData = [
-        { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
+        { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },        
         { type: "title", name: "Product categories", id: 1 },
     ];
 
@@ -40,9 +40,10 @@ class ConnectedMenu extends Component {
         super(props);
 
         let menuItems = menuDataFromCategories(categories);
- 
+
         this.state = {
-            // This property keeps track of expanded items, initially let's set all title items to expanded.
+
+            // This property keeps track of which title items are expanded, initially let's set all title items to expanded.
             expanded: menuItems.reduce((accum, current) => {
                 if (current.type === "title") {
                     accum[current.id] = true;
@@ -64,15 +65,17 @@ class ConnectedMenu extends Component {
         return (
             <div className="menu">
                 {
-
                     this.state.menuItems.filter(y => {
-                        // Filter some menu items before showing them.
-                        return (y.type === "title" || ((!y.parentID || this.state.expanded[y.parentID]) && (!y.protected || this.props.loggedInUser)));
+
+                        if (y.parentID && !this.state.expanded[y.parentID]) return false;
+                        if (y.protected && !this.props.loggedInUser) return false;
+                        return true;
+
                     }).map((x, i) => {
 
                         if (x.type === "item") {
 
-                            return (<div key={x.id} style={{ margin: 5, marginLeft: 10 }}>
+                            return (
                                 <NavLink
                                     to={x.url}
                                     exact
@@ -80,8 +83,7 @@ class ConnectedMenu extends Component {
 
                                         let itemCategory = queryString.parse(x.url.substring(x.url.indexOf("?"))).category;
 
-                                        // In case current URL contains a query string we do some manual
-                                        // checks to determine if the navlink should be in active style or not.
+                                        // When there is query string in URL, we manually decide when link is active.
                                         if (location.search && itemCategory !== undefined) {
                                             let currectCategory = queryString.parse(location.search).category;
                                             let directClick = queryString.parse(location.search).term === undefined;
@@ -92,9 +94,10 @@ class ConnectedMenu extends Component {
                                     }}
                                     style={{
                                         textDecoration: 'none',
-                                        color: "rgb(32, 32, 34)"
-
+                                        color: "rgb(32, 32, 34)",
+                                        marginLeft: 10
                                     }}
+                                    key={x.id}
                                     activeStyle={{
                                         color: "#4282ad",
                                     }}
@@ -104,14 +107,12 @@ class ConnectedMenu extends Component {
                                         {x.name}
                                     </div>
 
-                                </NavLink></div>);
+                                </NavLink>);
                         } else if (x.type === "title") {
                             return (
                                 <div
                                     key={x.id}
                                     onClick={() => {
-
-                                        // Either expand or collapse this title item 
                                         this.setState(ps => {
                                             return {
                                                 expanded: {
@@ -123,7 +124,7 @@ class ConnectedMenu extends Component {
                                     }}
                                 >
 
-                                    <div style={{ padding: 10, height: 20, fontSize: 14, display: "flex", alignItems: "center", cursor: "pointer" }}>
+                                    <div style={{ paddingLeft: 10, paddingRight:5,  fontSize: 14, display: "flex", alignItems: "center", cursor: "pointer" }}>
                                         <span style={{ flex: 1 }}>{x.name}</span>
                                         {this.state.expanded[x.id] ? <ExpandLess /> : <ExpandMore />}
                                     </div>
