@@ -6,13 +6,17 @@
 	padding-top:10px;
 }
 
-.menuItem {
-	font-size: 14px;
+.menuItem, .menuTitle {
+	font-size: 13px;
 	margin-left: 10px;
+	margin-right: 5px;
 	display: flex;
 	align-items: center;
+	cursor:pointer;
  }
-
+ 
+ 
+ 
 .menuItem:hover {
 	color: #4282ad;
 }

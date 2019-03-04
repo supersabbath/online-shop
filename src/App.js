@@ -27,7 +27,6 @@ class App extends Component {
               <Route path='/about' render={() => <div>About us</div>} />
               <Route path="/login" component={Login} />
               <ProtectedRoute path='/order' component={Order} />
-
               <Route component={() => <div style={{padding:20}}>Page not found</div>} />
             </Switch>
           </div>

@@ -18,7 +18,7 @@ const mapStateToProps = state => {
 // Data needed for menu.
 const menuDataFromCategories = (categories) => {
     let menuData = [
-        { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },        
+        { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
         { type: "title", name: "Product categories", id: 1 },
     ];
 
@@ -83,7 +83,7 @@ class ConnectedMenu extends Component {
 
                                         let itemCategory = queryString.parse(x.url.substring(x.url.indexOf("?"))).category;
 
-                                        // When there is query string in URL, we manually decide when link is active.
+                                        // We have some manual way to decide if a menu item is active or not.
                                         if (location.search && itemCategory !== undefined) {
                                             let currectCategory = queryString.parse(location.search).category;
                                             let directClick = queryString.parse(location.search).term === undefined;
@@ -112,6 +112,7 @@ class ConnectedMenu extends Component {
                             return (
                                 <div
                                     key={x.id}
+                                    className="menuTitle"
                                     onClick={() => {
                                         this.setState(ps => {
                                             return {
@@ -123,11 +124,8 @@ class ConnectedMenu extends Component {
                                         })
                                     }}
                                 >
-
-                                    <div style={{ paddingLeft: 10, paddingRight:5,  fontSize: 14, display: "flex", alignItems: "center", cursor: "pointer" }}>
-                                        <span style={{ flex: 1 }}>{x.name}</span>
-                                        {this.state.expanded[x.id] ? <ExpandLess /> : <ExpandMore />}
-                                    </div>
+                                    <span style={{ flex: 1 }}>{x.name}</span>
+                                    {this.state.expanded[x.id] ? <ExpandLess /> : <ExpandMore />}
 
                                 </div>);
                         }
