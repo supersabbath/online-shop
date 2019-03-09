@@ -31,14 +31,18 @@ class ConnectedDetails extends Component {
         // First, let's get the item, details of which we want to show. 
         let item = await Api.getItemUsingID(id);
 
-        // Now, we can get related items too. 
-        let relatedItems = await Api.searchItems({ category: item.category });
+        // Now, get items from same category.
+        let relatedItems = await Api.searchItems({
+            category: item.category,
+            page: "1",
+            itemsPerPage: "5"
+        });
 
         this.setState((ps) => {
             return {
                 item,
                 unfinishedTasks: ps.unfinishedTasks - 1,
-                relatedItems: relatedItems.data.filter((x, i) => x.id !== item.id && i < 10)
+                relatedItems: relatedItems.data.filter((x) => x.id !== item.id)
             }
         })
 
@@ -65,7 +69,7 @@ class ConnectedDetails extends Component {
             return (<CircularProgress className="circular" />)
         }
 
-        if(!this.state.item){
+        if (!this.state.item) {
             return null;
         }
 

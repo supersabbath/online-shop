@@ -18,6 +18,8 @@ class Api {
 
 
     _sortData(data, sortval) {
+        if (!sortval) return data;
+
         let items = JSON.parse(JSON.stringify(data));
 
         if (sortval === "lh") {
@@ -60,18 +62,15 @@ class Api {
                     return true;
                 });
 
-                if (sortValue) {
-                    data = this._sortData(data, sortValue)
-                }
-
                 let totalLength = data.length;
 
-                // Paging
+                // Sort data if needed
+                data = this._sortData(data, sortValue)
+
+                // Get data from the requested page.
                 page = parseInt(page, 0);
-                if (page) {
-                    data = data.slice((page - 1) * itemsPerPage, page * itemsPerPage)
-                }
-                
+                data = data.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+
                 resolve({ data, totalLength })
 
 
