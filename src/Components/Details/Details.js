@@ -17,12 +17,20 @@ var Remarkable = require('remarkable');
 
 class ConnectedDetails extends Component {
 
-    state = {
-        relatedItems: [],
-        quantity: "1",
-        item: null,
-        unfinishedTasks: 0,
+
+    constructor(props) {
+        super(props);
+
+        this.isCompMounted = false;
+
+        this.state = {
+            relatedItems: [],
+            quantity: "1",
+            item: null,
+            unfinishedTasks: 0,
+        }
     }
+
 
     async fetchProductUsingID(id) {
 
@@ -38,13 +46,17 @@ class ConnectedDetails extends Component {
             itemsPerPage: "5"
         });
 
-        this.setState((ps) => {
-            return {
-                item,
-                unfinishedTasks: ps.unfinishedTasks - 1,
-                relatedItems: relatedItems.data.filter((x) => x.id !== item.id)
-            }
-        })
+        if (this.isCompMounted) {
+            this.setState((ps) => {
+                return {
+                    item,
+                    unfinishedTasks: ps.unfinishedTasks - 1,
+                    relatedItems: relatedItems.data.filter((x) => x.id !== item.id)
+                }
+            })
+        }
+
+
 
 
     }
@@ -54,7 +66,12 @@ class ConnectedDetails extends Component {
     }
 
     componentDidMount() {
+        this.isCompMounted = true;
         this.fetchProductUsingID(this.props.match.params.id);
+    }
+
+    componentWillUnmount() {
+        this.isCompMounted = false;
     }
 
     // Product information contains markup, we use Remarkable for this.
