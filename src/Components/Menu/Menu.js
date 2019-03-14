@@ -83,7 +83,7 @@ class ConnectedMenu extends Component {
 
                                         let itemCategory = queryString.parse(x.url.substring(x.url.indexOf("?"))).category;
 
-                                        // We have some manual way to decide if a menu item is active or not.
+                                        // In some cases, we have some manual way to decide if a menu item is active or not.
                                         if (location.search && itemCategory !== undefined) {
                                             let currectCategory = queryString.parse(location.search).category;
                                             let directClick = queryString.parse(location.search).term === undefined;
