@@ -1,18 +1,22 @@
-// Mock of an authentication service 
+// Mock of an authentication service
 const Auth = {
-    _isAuthenticated: false,
+  _isAuthenticated: false,
 
-    authenticate(name, pass, cb) {
-      this._isAuthenticated = true;
-      setTimeout(()=>cb({
-        name:name
-      }), 100)  
-    },
-    
-    signout(cb) {
-      this._isAuthenticated = false
-      setTimeout(cb, 100)  
-    }
+  authenticate(name, pass, cb) {
+    this._isAuthenticated = true;
+    setTimeout(
+      () =>
+        cb({
+          name: name
+        }),
+      100
+    );
+  },
+
+  signout(cb) {
+    this._isAuthenticated = false;
+    setTimeout(cb, 100);
   }
+};
 
-  export default Auth;
+export default Auth;
