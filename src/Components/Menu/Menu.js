@@ -27,8 +27,8 @@ const menuDataFromCategories = categories => {
 
   let initialLength = menuData.length;
 
-  // Map categories to menu items.
   menuData = menuData.concat(
+    // Map categories to menu items.
     categories.map((x, i) => {
       return {
         name: x.name,
