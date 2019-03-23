@@ -83,17 +83,14 @@ class ConnectedMenu extends Component {
                   to={x.url}
                   exact
                   isActive={(_, location) => {
-                    let itemCategory = queryString.parse(
-                      x.url.substring(x.url.indexOf("?"))
-                    ).category;
-
+                
                     // If there is a query string, we have some manual way to decide which menu item is active.
-                    if (location.search && itemCategory !== undefined) {
-                      let currectCategory = queryString.parse(location.search)
+                    if (location.search) {
+                      let categoryFromQS = queryString.parse(location.search)
                         .category;
-                      let directClick =
+                      let isDirectClick =
                         queryString.parse(location.search).term === undefined;
-                      return directClick && itemCategory === currectCategory;
+                      return isDirectClick && x.name === categoryFromQS;
                     }
 
                     return x.url === location.pathname;
