@@ -24,6 +24,7 @@ class ConnectedMenu extends Component {
     super(props);
     
     this.state = {
+      // Keep track of expanded title items in menu
       expandedItems: dataForRenderingMenu.reduce((accum, current) => {
         if (current.type === "title") {
           accum[current.id] = true;
@@ -44,6 +45,7 @@ class ConnectedMenu extends Component {
       <div className="menu">
         {this.state.menuItems
           .filter(y => {
+            // If needed, filter some menu items first.
             if (y.parentID && !this.state.expandedItems[y.parentID]) return false;
             if (y.protected && !this.props.loggedInUser) return false;
             return true;
