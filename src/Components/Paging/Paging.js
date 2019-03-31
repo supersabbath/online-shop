@@ -7,6 +7,13 @@ import Right from "@material-ui/icons/ChevronRight";
 import First from "@material-ui/icons/FirstPage";
 import Last from "@material-ui/icons/LastPage";
 import IconButton from "@material-ui/core/IconButton";
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  input: {
+      textAlign: 'center'
+  }
+});
 
 const itemsPerPageOptions = [
   <MenuItem key={"5"} value={"5"}>
@@ -20,7 +27,7 @@ const itemsPerPageOptions = [
   </MenuItem>
 ];
 
-// Paging component.
+
 const Paging = props => {
   let itemsPerPage = props.getParamFromQS("itemsPerPage");
 
@@ -65,8 +72,10 @@ const Paging = props => {
       Page:
       <TextField
         type="number"
-        variant="outlined"
-        style={{ marginLeft: 5, height: 30, width: 70, marginRight: 10 }}
+        style={{ marginLeft: 5, width: 50,  marginRight: 10 }}
+        inputProps={{
+          className:props.classes.input
+        }}
         value={props.getParamFromQS("page")}
         onChange={e => {
           let val = e.target.value;
@@ -115,4 +124,4 @@ const Paging = props => {
   );
 };
 
-export default Paging;
+export default withStyles(styles)(Paging);

@@ -1,3 +1,4 @@
+// Our product database.
 const sampleProducts = [
   {
     id: 1,
@@ -148,6 +149,7 @@ const sampleProducts = [
   }
 ];
 
+// List of item categories.
 const categories = [
   {
     name: "All categories",
@@ -171,4 +173,29 @@ const categories = [
   }
 ];
 
-export { sampleProducts, categories };
+// Generate data for rendering menu on the left.
+const dataForRenderingMenu = ((categories) => {
+  let menuData = [
+    { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
+    { type: "title", name: "Product categories", id: 1 }
+  ];
+
+  let initialLength = menuData.length;
+
+  menuData = menuData.concat(
+    categories.map((x, i) => {
+      return {
+        name: x.name,
+        url: "/search/?category=" + x.name,
+        id: initialLength + i,
+        type: "item",
+        parentID: 1,
+        icon: x.icon
+      };
+    })
+  );
+
+  return menuData;
+})(categories)
+
+export { sampleProducts, categories, dataForRenderingMenu };

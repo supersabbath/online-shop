@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import queryString from "query-string";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { categories } from "../../Data";
+import { dataForRenderingMenu } from "../../Data";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { loadCSS } from "fg-loadcss/src/loadCSS";
@@ -17,48 +17,20 @@ const mapStateToProps = state => {
     loggedInUser: state.loggedInUser
   };
 };
-
-// Function which generates data needed for rendering the menu.
-const menuDataFromCategories = categories => {
-  let menuData = [
-    { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
-    { type: "title", name: "Product categories", id: 1 }
-  ];
-
-  let initialLength = menuData.length;
-
-  menuData = menuData.concat(
-    // Map item categories to menu items.
-    categories.map((x, i) => {
-      return {
-        name: x.name,
-        url: "/search/?category=" + x.name,
-        id: initialLength + i,
-        type: "item",
-        parentID: 1,
-        icon: x.icon
-      };
-    })
-  );
-
-  return menuData;
-};
+ 
 
 class ConnectedMenu extends Component {
   constructor(props) {
     super(props);
-
-    let menuItems = menuDataFromCategories(categories);
-
+    
     this.state = {
-      // This property keeps track of which title items are expanded, initially let's set all title items to expanded.
-      expanded: menuItems.reduce((accum, current) => {
+      expandedItems: dataForRenderingMenu.reduce((accum, current) => {
         if (current.type === "title") {
           accum[current.id] = true;
         }
         return accum;
       }, {}),
-      menuItems
+      menuItems:dataForRenderingMenu
     };
   }
 
@@ -72,7 +44,7 @@ class ConnectedMenu extends Component {
       <div className="menu">
         {this.state.menuItems
           .filter(y => {
-            if (y.parentID && !this.state.expanded[y.parentID]) return false;
+            if (y.parentID && !this.state.expandedItems[y.parentID]) return false;
             if (y.protected && !this.props.loggedInUser) return false;
             return true;
           })
@@ -122,16 +94,16 @@ class ConnectedMenu extends Component {
                   onClick={() => {
                     this.setState(ps => {
                       return {
-                        expanded: {
-                          ...ps.expanded,
-                          [x.id]: !ps.expanded[x.id]
+                        expandedItems: {
+                          ...ps.expandedItems,
+                          [x.id]: !ps.expandedItems[x.id]
                         }
                       };
                     });
                   }}
                 >
                   <span style={{ flex: 1 }}>{x.name}</span>
-                  {this.state.expanded[x.id] ? <ExpandLess /> : <ExpandMore />}
+                  {this.state.expandedItems[x.id] ? <ExpandLess /> : <ExpandMore />}
                 </div>
               );
             }
