@@ -18,7 +18,7 @@ const mapStateToProps = state => {
   };
 };
 
-// Data needed for drawing menu.
+// Function which generates data needed for rendering the menu.
 const menuDataFromCategories = categories => {
   let menuData = [
     { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
@@ -28,7 +28,7 @@ const menuDataFromCategories = categories => {
   let initialLength = menuData.length;
 
   menuData = menuData.concat(
-    // Map categories to menu items.
+    // Map item categories to menu items.
     categories.map((x, i) => {
       return {
         name: x.name,
