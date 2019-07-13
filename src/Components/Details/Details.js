@@ -252,7 +252,7 @@ class ConnectedDetails extends Component {
             Not available
           </div>
         ) : (
-          <div style={{ width: 700, height: 320, paddingLeft: 40 }}>
+          <div style={{ width: 600, height: 320, paddingLeft: 40 }}>
             <Slider {...settingsRelatedItems}>
               {this.state.relatedItems.map(x => {
                 return <Item key={x.id} item={x} />;
