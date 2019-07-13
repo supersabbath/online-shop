@@ -5,7 +5,6 @@
 .app {
   min-height: 100%;
   flex-direction: column;
-  overflow: auto;
   display: flex;
   min-width: 900px;
 }
