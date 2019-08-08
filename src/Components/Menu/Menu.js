@@ -16,12 +16,11 @@ const mapStateToProps = state => {
     loggedInUser: state.loggedInUser
   };
 };
- 
 
 class ConnectedMenu extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       // Keep track of expanded parent items in the menu. By default expand them.
       expandedMenuItems: menuItems.reduce((accum, current) => {
@@ -30,7 +29,7 @@ class ConnectedMenu extends Component {
         }
         return accum;
       }, {}),
-      menuItems,
+      menuItems
     };
   }
 
@@ -44,7 +43,8 @@ class ConnectedMenu extends Component {
       <div className="menu">
         {this.state.menuItems
           .filter(y => {
-            if (y.parentID && !this.state.expandedMenuItems[y.parentID]) return false;
+            if (y.parentID && !this.state.expandedMenuItems[y.parentID])
+              return false;
             if (y.protected && !this.props.loggedInUser) return false;
             return true;
           })
@@ -55,14 +55,22 @@ class ConnectedMenu extends Component {
                   to={x.url}
                   exact
                   isActive={(_, location) => {
-                
-                    // If there is a query string, we have some manual way to decide which menu item is active.
+
+                    // Check if there is a query string.
                     if (location.search) {
-                      let categoryFromQS = queryString.parse(location.search)
-                        .category;
+                      let categoryFromQueryString = queryString.parse(
+                        location.search
+                      ).category;
+
+                      // If "term" is undefined, we assume user didn't click Search button.
                       let isDirectClick =
                         queryString.parse(location.search).term === undefined;
-                      return isDirectClick && x.name === categoryFromQS;
+
+                      // If user didn't click Search and name of this item is same
+                      // as category from query string, highlight this item
+                      return (
+                        isDirectClick && x.name === categoryFromQueryString
+                      );
                     }
 
                     return x.url === location.pathname;
@@ -103,7 +111,11 @@ class ConnectedMenu extends Component {
                   }}
                 >
                   <span style={{ flex: 1 }}>{x.name}</span>
-                  {this.state.expandedMenuItems[x.id] ? <ExpandLess /> : <ExpandMore />}
+                  {this.state.expandedMenuItems[x.id] ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )}
                 </div>
               );
             }
