@@ -7,9 +7,8 @@ Online shop prototype (front end) implemented using React, Redux, React router, 
 
 **Some (main) features**:
 - Search products using keyword and/or category
-- Ability to filter and sort products
-- Users can add products to shopping cart (also has checkout page, which can be accessed when logged in).
-
+- Ability to filter and sort products by price
+- Users can add products to shopping cart 
 
 # How to use
 
