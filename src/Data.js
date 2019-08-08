@@ -174,15 +174,15 @@ const categories = [
 ];
 
 // Generate data for rendering menu on the left.
-const dataForRenderingMenu = ((categories) => {
-  let menuData = [
+const menuItems = ((categories) => {
+  let items = [
     { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
-    { type: "title", name: "Product categories", id: 1 }
+    { type: "parent", name: "Product categories", id: 1 }
   ];
 
-  let initialLength = menuData.length;
+  let initialLength = items.length;
 
-  menuData = menuData.concat(
+  items = items.concat(
     categories.map((x, i) => {
       return {
         name: x.name,
@@ -195,7 +195,7 @@ const dataForRenderingMenu = ((categories) => {
     })
   );
 
-  return menuData;
+  return items;
 })(categories)
 
-export { sampleProducts, categories, dataForRenderingMenu };
+export { sampleProducts, categories, menuItems };

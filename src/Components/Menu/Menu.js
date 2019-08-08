@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import queryString from "query-string";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { dataForRenderingMenu } from "../../Data";
+import { menuItems } from "../../Data";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { loadCSS } from "fg-loadcss/src/loadCSS";
@@ -13,7 +13,6 @@ import Icon from "@material-ui/core/Icon";
 const mapStateToProps = state => {
   return {
     showMenu: state.showMenu,
-    checkedOutItems: state.checkedOutItems,
     loggedInUser: state.loggedInUser
   };
 };
@@ -24,14 +23,14 @@ class ConnectedMenu extends Component {
     super(props);
     
     this.state = {
-      // Keep track of expanded title items in menu
-      expandedItems: dataForRenderingMenu.reduce((accum, current) => {
-        if (current.type === "title") {
+      // Keep track of expanded parent items in the menu. By default expand them.
+      expandedMenuItems: menuItems.reduce((accum, current) => {
+        if (current.type === "parent") {
           accum[current.id] = true;
         }
         return accum;
       }, {}),
-      menuItems:dataForRenderingMenu
+      menuItems,
     };
   }
 
@@ -45,8 +44,7 @@ class ConnectedMenu extends Component {
       <div className="menu">
         {this.state.menuItems
           .filter(y => {
-            // If needed, filter some menu items first.
-            if (y.parentID && !this.state.expandedItems[y.parentID]) return false;
+            if (y.parentID && !this.state.expandedMenuItems[y.parentID]) return false;
             if (y.protected && !this.props.loggedInUser) return false;
             return true;
           })
@@ -88,7 +86,7 @@ class ConnectedMenu extends Component {
                   </div>
                 </NavLink>
               );
-            } else if (x.type === "title") {
+            } else if (x.type === "parent") {
               return (
                 <div
                   key={x.id}
@@ -96,16 +94,16 @@ class ConnectedMenu extends Component {
                   onClick={() => {
                     this.setState(ps => {
                       return {
-                        expandedItems: {
-                          ...ps.expandedItems,
-                          [x.id]: !ps.expandedItems[x.id]
+                        expandedMenuItems: {
+                          ...ps.expandedMenuItems,
+                          [x.id]: !ps.expandedMenuItems[x.id]
                         }
                       };
                     });
                   }}
                 >
                   <span style={{ flex: 1 }}>{x.name}</span>
-                  {this.state.expandedItems[x.id] ? <ExpandLess /> : <ExpandMore />}
+                  {this.state.expandedMenuItems[x.id] ? <ExpandLess /> : <ExpandMore />}
                 </div>
               );
             }
