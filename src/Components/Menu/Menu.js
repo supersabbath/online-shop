@@ -1,14 +1,19 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import "./Menu.css";
 import { NavLink } from "react-router-dom";
 import queryString from "query-string";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { menuItems } from "../../Data";
+import { dataForTheMenu } from "../../Data";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { loadCSS } from "fg-loadcss/src/loadCSS";
 import Icon from "@material-ui/core/Icon";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
 
 const mapStateToProps = state => {
   return {
@@ -22,84 +27,79 @@ class ConnectedMenu extends Component {
     super(props);
 
     this.state = {
-      // Keep track of expanded parent items in the menu. By default expand them.
-      expandedMenuItems: menuItems.reduce((accum, current) => {
-        if (current.type === "parent") {
+
+      expandedMenuItems: dataForTheMenu.reduce((accum, current) => {
+        if (current.children) {
           accum[current.id] = true;
         }
         return accum;
       }, {}),
-      menuItems
+
+      dataForTheMenu
     };
+
+    this.renderMenu = this.renderMenu.bind(this)
   }
 
-  componentDidMount() {
-    loadCSS("https://use.fontawesome.com/releases/v5.1.0/css/all.css");
+  // Determines is a menu item is active or not.
+  isMenuItemActive(item, location) {
+
+    if (location.search) {
+      let categoryFromQueryString = queryString.parse(
+        location.search
+      ).category;
+
+      let isDirectClick =
+        queryString.parse(location.search).term === undefined;
+
+      return (
+        isDirectClick && item.name === categoryFromQueryString
+      );
+    }
+
+    return item.url === location.pathname;
   }
 
-  render() {
-    if (!this.props.showMenu) return null;
-    return (
-      <div className="menu">
-        {this.state.menuItems
-          .filter(y => {
-            if (y.parentID && !this.state.expandedMenuItems[y.parentID])
-              return false;
-            if (y.protected && !this.props.loggedInUser) return false;
-            return true;
-          })
-          .map((x, i) => {
-            if (x.type === "item") {
-              return (
-                <NavLink
-                  to={x.url}
-                  exact
-                  isActive={(_, location) => {
+  // Receives menu data and renders menu items recursively.
+  renderMenu(data) {
 
-                    // Check if there is a query string.
-                    if (location.search) {
-                      let categoryFromQueryString = queryString.parse(
-                        location.search
-                      ).category;
-
-                      // If "term" is undefined, we assume user didn't click Search button.
-                      let isDirectClick =
-                        queryString.parse(location.search).term === undefined;
-
-                      // If user didn't click Search and name of this item is same
-                      // as category from query string, highlight this item
-                      return (
-                        isDirectClick && x.name === categoryFromQueryString
-                      );
-                    }
-
-                    return x.url === location.pathname;
-                  }}
-                  style={{
-                    textDecoration: "none",
-                    color: "rgb(32, 32, 34)",
-                    marginLeft: 10
-                  }}
-                  key={x.id}
-                  activeStyle={{
-                    color: "#4282ad"
-                  }}
-                >
-                  <div className="menuItem">
+    return (<List
+    >
+      {data
+        .map((x, i) => {
+          if (!x.children) {
+            return (
+              <NavLink
+                to={x.url}
+                exact
+                isActive={(param, location) => { return this.isMenuItemActive(x, location) }}
+                style={{
+                  textDecoration: "none",
+                  color: "rgb(32, 32, 34)",
+                }}
+                key={x.id}
+                activeStyle={{
+                  color: "#4282ad"
+                }}
+              >
+                <ListItem dense button>
+                  <ListItemIcon>
                     <Icon
-                      className={x.icon}
-                      style={{ fontSize: 22, width: 25, marginRight: 10 }}
-                    />
-                    {x.name}
-                  </div>
-                </NavLink>
-              );
-            } else if (x.type === "parent") {
-              return (
-                <div
-                  key={x.id}
-                  className="menuTitle"
+
+                    >{x.icon}}</Icon>
+                  </ListItemIcon>
+                  <ListItemText
+                    disableTypography
+                    primary={<div style={{ color: "inherit" }} >{x.name}</div>} />
+                </ListItem>
+              </NavLink>)
+
+          } else {
+            return (
+              <Fragment key={x.id}>
+                <ListItem button dense
                   onClick={() => {
+                    // Update in state which menu items are expanded.
                     this.setState(ps => {
                       return {
                         expandedMenuItems: {
@@ -108,20 +108,30 @@ class ConnectedMenu extends Component {
                         }
                       };
                     });
-                  }}
-                >
-                  <span style={{ flex: 1 }}>{x.name}</span>
-                  {this.state.expandedMenuItems[x.id] ? (
-                    <ExpandLess />
-                  ) : (
-                    <ExpandMore />
-                  )}
-                </div>
-              );
-            }
+                  }}>
 
-            return null;
-          })}
+                  <ListItemText primary={x.name} />
+                  {this.state.expandedMenuItems[x.id] ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={this.state.expandedMenuItems[x.id]} timeout="auto" unmountOnExit>
+                  {this.renderMenu(x.children)}
+                </Collapse>
+              </Fragment>
+            );
+          }
+
+
+        })}
+    </List>)
+  }
+
+
+  render() {
+    if (!this.props.showMenu) return null;
+    return (
+      <div className="menu">
+        {/* Render our menu */}
+        {this.renderMenu(this.state.dataForTheMenu)}
       </div>
     );
   }

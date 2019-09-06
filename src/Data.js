@@ -153,49 +153,46 @@ const sampleProducts = [
 const categories = [
   {
     name: "All categories",
-    icon: "fas fa-list"
+    icon: "list"
   },
   {
     name: "Clothing and Shoes",
-    icon: "fas fa-tshirt"
+    icon: "group"
   },
   {
     name: "Jewelry and Watches",
-    icon: "far fa-gem"
+    icon: "watch"
   },
   {
     name: "Books",
-    icon: "fas fa-book"
+    icon: "menu_book"
   },
   {
     name: "Computers",
-    icon: "fas fa-desktop"
+    icon: "computer"
   }
 ];
 
 // Generate data for rendering menu on the left.
-const menuItems = ((categories) => {
+const dataForTheMenu = ((categories) => {
   let items = [
-    { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
-    { type: "parent", name: "Product categories", id: 1 }
+    { name: "Home page", url: "/", icon: "home", id: 0 },
+    {
+      name: "Product categories",
+      id: 1,
+      children: categories.map((x, i) => {
+        return {
+          name: x.name,
+          id: 1 + i,
+          url: "/search/?category=" + x.name,
+          icon: x.icon
+        };
+      })
+    },
+
   ];
-
-  let initialLength = items.length;
-
-  items = items.concat(
-    categories.map((x, i) => {
-      return {
-        name: x.name,
-        url: "/search/?category=" + x.name,
-        id: initialLength + i,
-        type: "item",
-        parentID: 1,
-        icon: x.icon
-      };
-    })
-  );
 
   return items;
 })(categories)
 
-export { sampleProducts, categories, menuItems };
+export { sampleProducts, categories, dataForTheMenu };

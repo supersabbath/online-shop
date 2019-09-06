@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   input: {
-      textAlign: 'center'
+    textAlign: 'center'
   }
 });
 
@@ -29,7 +29,7 @@ const itemsPerPageOptions = [
 
 
 const Paging = props => {
-  let itemsPerPage = props.getParamFromQS("itemsPerPage");
+  let itemsPerPage = props.getValueFromQueryString("itemsPerPage");
 
   // Compute total number of pages.
   let totalPages = Math.ceil(props.wholeDataLength / parseInt(itemsPerPage));
@@ -49,9 +49,9 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={props.getParamFromQS("page") === "1"}
+        disabled={props.getValueFromQueryString("page") === "1"}
         onClick={() => {
-          props.updateURLAndRedirect({ page: 1 });
+          props.updateQueryStringAndRedirect({ page: 1 });
         }}
         style={{ marginRight: 10 }}
       >
@@ -60,10 +60,10 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={props.getParamFromQS("page") === "1"}
+        disabled={props.getValueFromQueryString("page") === "1"}
         onClick={() => {
-          let val = parseInt(props.getParamFromQS("page"), 0) - 1;
-          props.updateURLAndRedirect({ page: val });
+          let val = parseInt(props.getValueFromQueryString("page"), 0) - 1;
+          props.updateQueryStringAndRedirect({ page: val });
         }}
         style={{ marginRight: 10 }}
       >
@@ -72,25 +72,25 @@ const Paging = props => {
       Page:
       <TextField
         type="number"
-        style={{ marginLeft: 5, width: 50,  marginRight: 10 }}
+        style={{ marginLeft: 5, width: 50, marginRight: 10 }}
         inputProps={{
-          className:props.classes.input
+          className: props.classes.input
         }}
-        value={props.getParamFromQS("page")}
+        value={props.getValueFromQueryString("page")}
         onChange={e => {
           let val = e.target.value;
           if (parseInt(val, 0) > totalPages || parseInt(val, 0) < 1) return;
-          props.updateURLAndRedirect({ page: val });
+          props.updateQueryStringAndRedirect({ page: val });
         }}
       />
       of {totalPages}
       <IconButton
         size="small"
         color="primary"
-        disabled={props.getParamFromQS("page") === totalPages.toString()}
+        disabled={props.getValueFromQueryString("page") === totalPages.toString()}
         onClick={() => {
-          let val = parseInt(props.getParamFromQS("page"), 0) + 1;
-          props.updateURLAndRedirect({ page: val });
+          let val = parseInt(props.getValueFromQueryString("page"), 0) + 1;
+          props.updateQueryStringAndRedirect({ page: val });
         }}
         style={{ marginLeft: 10, marginRight: 10 }}
       >
@@ -99,9 +99,9 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={props.getParamFromQS("page") === totalPages.toString()}
+        disabled={props.getValueFromQueryString("page") === totalPages.toString()}
         onClick={() => {
-          props.updateURLAndRedirect({ page: totalPages });
+          props.updateQueryStringAndRedirect({ page: totalPages });
         }}
         style={{ marginRight: 10 }}
       >
@@ -111,7 +111,7 @@ const Paging = props => {
       <Select
         value={itemsPerPage}
         onChange={e => {
-          props.updateURLAndRedirect({ itemsPerPage: e.target.value }, true);
+          props.updateQueryStringAndRedirect({ itemsPerPage: e.target.value }, true);
         }}
       >
         {itemsPerPageOptions}

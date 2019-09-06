@@ -1,22 +1,9 @@
 .menu {
-	width: 200px;
+	width: 250px;
 	border-right: 1px solid lightgray;
 	overflow-y: auto;
 	background-color: #FAFAFB;
 	padding-top:10px;
 }
 
-.menuItem, .menuTitle {
-	font-size: 13px;
-	margin-left: 10px;
-	margin-right: 5px;
-	display: flex;
-	align-items: center;
-	cursor:pointer;
- }
  
- 
- 
-.menuItem:hover {
-	color: #4282ad;
-}

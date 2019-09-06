@@ -22,12 +22,15 @@ const sortOptions = [
   </MenuItem>
 ];
 
-
-// Much of the state for this component, like the search term for products,
-// whether to use price filter or not, etc. - actually lives in the query string.
+///
+//
+// In this web application, we use query strings, so that someone could share a link
+// and the other person could get the list of same products for example.
+// Because of this much of the state of this component actually lives in the URL.
 // This component is also responsible for retrieving the products it needs to show.
 // Again it determines which components it needs to show, from query string.
 // It checks the query string on first render, and on every props change.
+//
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -39,11 +42,10 @@ class ProductList extends Component {
       items: []
     };
 
-    this.getParamFromQS = this.getParamFromQS.bind(this);
-    this.updateURLAndRedirect = this.updateURLAndRedirect.bind(this);
+    this.getValueFromQueryString = this.getValueFromQueryString.bind(this);
+    this.updateQueryStringAndRedirect = this.updateQueryStringAndRedirect.bind(this);
   }
 
-  // Convert object to query string
   convertObjectToQueryString(params) {
     var esc = encodeURIComponent;
     return Object.entries(params).map(([k, v]) => {
@@ -51,9 +53,8 @@ class ProductList extends Component {
     }).join("&");
   }
 
-  // This function is used to update the query string with new values
-  // and redirect to new URL.
-  updateURLAndRedirect(newValues, restartPaging) {
+
+  updateQueryStringAndRedirect(newValues, restartPaging) {
     let currentQs = queryString.parse(this.props.location.search);
     let newQS = { ...currentQs, ...newValues };
 
@@ -64,8 +65,7 @@ class ProductList extends Component {
     this.props.history.push("/search/?" + this.convertObjectToQueryString(newQS));
   }
 
-  // Extract value of certain parameter from query string.
-  getParamFromQS(name, props = this.props) {
+  getValueFromQueryString(name, props = this.props) {
     let qs = queryString.parse(props.location.search);
 
     switch (name) {
@@ -97,14 +97,14 @@ class ProductList extends Component {
 
     // Make simulated request to server to get items
     let results = await Api.searchItems({
-      category: this.getParamFromQS("category", props),
-      term: this.getParamFromQS("term", props),
-      page: this.getParamFromQS("page", props),
-      itemsPerPage: this.getParamFromQS("itemsPerPage", props),
-      minPrice: this.getParamFromQS("minPrice", props),
-      maxPrice: this.getParamFromQS("maxPrice", props),
-      sortValue: this.getParamFromQS("sortValue", props),
-      usePriceFilter: this.getParamFromQS("usePriceFilter", props)
+      category: this.getValueFromQueryString("category", props),
+      term: this.getValueFromQueryString("term", props),
+      page: this.getValueFromQueryString("page", props),
+      itemsPerPage: this.getValueFromQueryString("itemsPerPage", props),
+      minPrice: this.getValueFromQueryString("minPrice", props),
+      maxPrice: this.getValueFromQueryString("maxPrice", props),
+      sortValue: this.getValueFromQueryString("sortValue", props),
+      usePriceFilter: this.getValueFromQueryString("usePriceFilter", props)
     });
 
     this.setState(ps => ({
@@ -123,15 +123,15 @@ class ProductList extends Component {
   }
 
   handleSortChange = e => {
-    this.updateURLAndRedirect({ sortValue: e.value });
+    this.updateQueryStringAndRedirect({ sortValue: e.value });
   };
 
   getPageTitle() {
     let pageTitle;
-    if (this.getParamFromQS("category") === "popular") {
+    if (this.getValueFromQueryString("category") === "popular") {
       pageTitle = "Popular products";
-    } else if (this.getParamFromQS("directCategoryClick")) {
-      pageTitle = this.getParamFromQS("category");
+    } else if (this.getValueFromQueryString("directCategoryClick")) {
+      pageTitle = this.getValueFromQueryString("category");
     } else {
       pageTitle = "Search results";
     }
@@ -159,9 +159,9 @@ class ProductList extends Component {
               control={
                 <Checkbox
                   color="primary"
-                  checked={this.getParamFromQS("usePriceFilter")}
+                  checked={this.getValueFromQueryString("usePriceFilter")}
                   onChange={e => {
-                    this.updateURLAndRedirect(
+                    this.updateQueryStringAndRedirect(
                       { usePriceFilter: e.target.checked },
                       true
                     );
@@ -171,7 +171,7 @@ class ProductList extends Component {
               label="Filter by price"
             />
             {/* Show price range button only if price filter is on */}
-            {this.getParamFromQS("usePriceFilter") && (
+            {this.getValueFromQueryString("usePriceFilter") && (
               <Tooltip title="Click to change range" disableFocusListener>
                 <Button
                   variant="outlined"
@@ -182,9 +182,9 @@ class ProductList extends Component {
                     });
                   }}
                 >
-                  {this.getParamFromQS("minPrice") +
+                  {this.getValueFromQueryString("minPrice") +
                     "$ - " +
-                    this.getParamFromQS("maxPrice") +
+                    this.getValueFromQueryString("maxPrice") +
                     "$"}
                 </Button>
               </Tooltip>
@@ -192,14 +192,14 @@ class ProductList extends Component {
             {/* Combo for sorting products */}
             <Select
               style={{ maxWidth: 400, marginBottom: 10 }}
-              value={this.getParamFromQS("sortValue")}
+              value={this.getValueFromQueryString("sortValue")}
               MenuProps={{
                 style: {
                   maxHeight: 500
                 }
               }}
               onChange={e => {
-                this.updateURLAndRedirect({ sortValue: e.target.value });
+                this.updateQueryStringAndRedirect({ sortValue: e.target.value });
               }}
             >
               {sortOptions}
@@ -218,19 +218,19 @@ class ProductList extends Component {
         {/* Paging component */}
         {this.state.unfinishedTasks === 0 && (
           <Paging
-            getParamFromQS={this.getParamFromQS}
-            updateURLAndRedirect={this.updateURLAndRedirect}
+            getValueFromQueryString={this.getValueFromQueryString}
+            updateQueryStringAndRedirect={this.updateQueryStringAndRedirect}
             wholeDataLength={this.state.wholeDataLength}
           />
         )}
         {/* This is dialog which opens up for setting price filter */}
         <PriceDialog
           open={this.state.openPriceDialog}
-          min={this.getParamFromQS("minPrice")}
-          max={this.getParamFromQS("maxPrice")}
+          min={this.getValueFromQueryString("minPrice")}
+          max={this.getValueFromQueryString("maxPrice")}
           onSave={(min, max) => {
             this.setState({ openPriceDialog: false });
-            this.updateURLAndRedirect({ minPrice: min, maxPrice: max }, true);
+            this.updateQueryStringAndRedirect({ minPrice: min, maxPrice: max }, true);
           }}
           onClose={() =>
             this.setState({
