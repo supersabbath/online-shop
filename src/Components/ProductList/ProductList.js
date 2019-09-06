@@ -22,9 +22,12 @@ const sortOptions = [
   </MenuItem>
 ];
 
-// This component retrieves the products it needs to show.
-// It determines the kind of products it needs to show from query string.
-// It checks the query string on first render and on every props change.
+
+// Much of the state for this component, like the search term for products,
+// whether to use price filter or not, etc. - actually lives in the query string.
+// This component is also responsible for retrieving the products it needs to show.
+// Again it determines which components it needs to show, from query string.
+// It checks the query string on first render, and on every props change.
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -41,13 +44,11 @@ class ProductList extends Component {
   }
 
   // Convert object to query string
-  objectToQueryString(params) {
+  convertObjectToQueryString(params) {
     var esc = encodeURIComponent;
-    var query = Object.keys(params)
-      .map(k => esc(k) + "=" + esc(params[k] !== undefined ? params[k] : ""))
-      .join("&");
-
-    return query;
+    return Object.entries(params).map(([k, v]) => {
+      return esc(k) + "=" + esc(v !== undefined ? v : "")
+    }).join("&");
   }
 
   // This function is used to update the query string with new values
@@ -60,7 +61,7 @@ class ProductList extends Component {
       delete newQS["page"];
     }
 
-    this.props.history.push("/search/?" + this.objectToQueryString(newQS));
+    this.props.history.push("/search/?" + this.convertObjectToQueryString(newQS));
   }
 
   // Extract value of certain parameter from query string.
@@ -148,10 +149,11 @@ class ProductList extends Component {
         }}
       >
         <div className="product-list-header">
-          <div className="online-shop-title" style={{ flexGrow: 1 }}>
+          <div className="online-shop-title" style={{ flex: 1 }}>
             {this.getPageTitle()}
           </div>
           <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>
+            {/* Check box for price filter */}
             <FormControlLabel
               style={{ marginBottom: 5 }}
               control={
@@ -168,6 +170,7 @@ class ProductList extends Component {
               }
               label="Filter by price"
             />
+            {/* Show price range button only if price filter is on */}
             {this.getParamFromQS("usePriceFilter") && (
               <Tooltip title="Click to change range" disableFocusListener>
                 <Button
@@ -186,6 +189,7 @@ class ProductList extends Component {
                 </Button>
               </Tooltip>
             )}
+            {/* Combo for sorting products */}
             <Select
               style={{ maxWidth: 400, marginBottom: 10 }}
               value={this.getParamFromQS("sortValue")}
@@ -206,11 +210,12 @@ class ProductList extends Component {
           {this.state.unfinishedTasks !== 0 ? (
             <CircularProgress className="circular" />
           ) : (
-            this.state.items.map(item => {
-              return <Item key={item.id} item={item} />;
-            })
-          )}
+              this.state.items.map(item => {
+                return <Item key={item.id} item={item} />;
+              })
+            )}
         </div>
+        {/* Paging component */}
         {this.state.unfinishedTasks === 0 && (
           <Paging
             getParamFromQS={this.getParamFromQS}
@@ -218,6 +223,7 @@ class ProductList extends Component {
             wholeDataLength={this.state.wholeDataLength}
           />
         )}
+        {/* This is dialog which opens up for setting price filter */}
         <PriceDialog
           open={this.state.openPriceDialog}
           min={this.getParamFromQS("minPrice")}
