@@ -40,7 +40,7 @@ class ConnectedMenu extends Component {
     this.renderMenu = this.renderMenu.bind(this)
   }
 
-  // Determines is a menu item is active or not.
+  // Determines if a menu item is active or not.
   isMenuItemActive(item, location) {
 
     if (location.search) {
