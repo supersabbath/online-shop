@@ -7,7 +7,6 @@ import { withRouter } from "react-router-dom";
 import { dataForTheMenu } from "../../Data";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { loadCSS } from "fg-loadcss/src/loadCSS";
 import Icon from "@material-ui/core/Icon";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

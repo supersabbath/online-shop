@@ -183,7 +183,7 @@ const dataForTheMenu = ((categories) => {
       children: categories.map((x, i) => {
         return {
           name: x.name,
-          id: 1 + i,
+          id: 2 + i,
           url: "/search/?category=" + x.name,
           icon: x.icon
         };
