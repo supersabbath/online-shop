@@ -140,8 +140,9 @@ class ProductList extends Component {
           height: "100%"
         }}
       >
+        {/* Header */}
         <div className="product-list-header">
-          <div className="online-shop-title" style={{ flex: 1 }}>
+          <div style={{ flex: 1, fontSize: 26, marginTop: 10 }}>
             {this.getPageTitle()}
           </div>
           <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>
@@ -198,6 +199,7 @@ class ProductList extends Component {
             </Select>
           </div>
         </div>
+        {/* Here go the items */}
         <div style={{ flex: 1 }}>
           {this.state.unfinishedTasks !== 0 ? (
             <CircularProgress className="circular" />

@@ -104,10 +104,9 @@ class ConnectedDetails extends Component {
       <div className="details" style={{ padding: 10 }}>
         <div
           style={{
-            color: "#504F5A",
-            marginTop: 15,
             marginBottom: 20,
-            fontSize: 22
+            marginTop: 10,
+            fontSize: 26
           }}
         >
           {this.state.item.name}
@@ -156,7 +155,7 @@ class ConnectedDetails extends Component {
               Price: {this.state.item.price} $
             </div>
             {this.state.item.popular && (
-              <span style={{ color: "#1a9349", marginTop: 5, fontSize: 14 }}>
+              <span style={{ marginTop: 5, fontSize: 14 }}>
                 (Popular product)
               </span>
             )}
@@ -192,59 +191,46 @@ class ConnectedDetails extends Component {
 
         <div
           style={{
-            color: "#504F5A",
-            marginTop: 50,
+            marginTop: 30,
             marginBottom: 10,
-            fontSize: 22
+            fontSize: 26
           }}
         >
           Product Description
         </div>
 
-        {this.state.item.description ? (
-          <div
-            style={{
-              color: "gray",
-              marginLeft: 5,
-              maxHeight: 200,
-              fontSize: 13,
-              overflow: "auto"
-            }}
-            dangerouslySetInnerHTML={this.getRawMarkup(
-              this.state.item.description
-            )}
-          />
-        ) : (
-          <div
-            style={{
-              color: "gray",
-              marginTop: 20,
-              marginBottom: 20,
-              marginLeft: 5,
-              maxHeight: 200,
-              fontSize: 13,
-              overflow: "auto"
-            }}
-            dangerouslySetInnerHTML={{ __html: "Not available" }}
-          />
-        )}
+
+        {/* Item description */}
+        <div
+          style={{
+            marginLeft: 5,
+            maxHeight: 200,
+            fontSize: 13,
+            marginTop: !this.state.item.description && 20,
+            marginBottom: !this.state.item.description && 20,
+            overflow: "auto"
+          }}
+          dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(
+            this.state.item.description
+          ) : { __html: "Not available" }}
+        />
+
 
         <div
           style={{
-            color: "#504F5A",
             marginTop: 10,
             marginBottom: 20,
-            fontSize: 22
+            fontSize: 26
           }}
         >
           Related Items
         </div>
 
+        {/* Relateditems */}
         {this.state.relatedItems.length === 0 ? (
           <div
             style={{
               fontSize: 13,
-              color: "gray",
               marginLeft: 10,
               marginBottom: 10
             }}
@@ -252,14 +238,14 @@ class ConnectedDetails extends Component {
             Not available
           </div>
         ) : (
-          <div style={{ width: 600, height: 320, paddingLeft: 40 }}>
-            <Slider {...settingsRelatedItems}>
-              {this.state.relatedItems.map(x => {
-                return <Item key={x.id} item={x} />;
-              })}
-            </Slider>
-          </div>
-        )}
+            <div style={{ width: 600, height: 320, paddingLeft: 40 }}>
+              <Slider {...settingsRelatedItems}>
+                {this.state.relatedItems.map(x => {
+                  return <Item key={x.id} item={x} />;
+                })}
+              </Slider>
+            </div>
+          )}
       </div>
     );
   }

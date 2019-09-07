@@ -104,9 +104,9 @@ class ConnectedHeader extends Component {
                 // Generate new URL to redirect user to
                 this.props.history.push(
                   "/search/?category=" +
-                    this.state.categoryFilter +
-                    "&term=" +
-                    this.state.searchTerm
+                  this.state.categoryFilter +
+                  "&term=" +
+                  this.state.searchTerm
                 );
               }}
             >
@@ -127,15 +127,15 @@ class ConnectedHeader extends Component {
                 Log in
               </Button>
             ) : (
-              <Avatar
-                onClick={event => {
-                  this.setState({ anchorEl: event.currentTarget });
-                }}
-                style={{ backgroundColor: "#3f51b5", marginLeft: 50 }}
-              >
-                <Person />
-              </Avatar>
-            )}
+                <Avatar
+                  onClick={event => {
+                    this.setState({ anchorEl: event.currentTarget });
+                  }}
+                  style={{ backgroundColor: "#3f51b5", marginLeft: 50 }}
+                >
+                  <Person />
+                </Avatar>
+              )}
             <IconButton
               aria-label="Cart"
               style={{ position: "absolute", right: 0 }}
