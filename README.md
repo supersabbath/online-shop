@@ -9,7 +9,7 @@ Online shop prototype (front end) implemented using React, Redux, React router, 
 - Search products using keyword and/or category
 - Ability to filter and sort products by price
 - Users can add products to shopping cart 
-- Uses query strings (e.g. so that one can share link)
+- Uses query strings when looking for products (e.g. so that one can share link)
 
 # How to use
 
