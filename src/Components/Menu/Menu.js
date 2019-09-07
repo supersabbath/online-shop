@@ -17,7 +17,6 @@ import Collapse from '@material-ui/core/Collapse';
 const mapStateToProps = state => {
   return {
     showMenu: state.showMenu,
-    loggedInUser: state.loggedInUser
   };
 };
 

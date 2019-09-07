@@ -32,7 +32,7 @@ const Paging = props => {
   let itemsPerPage = props.getValueFromQueryString("itemsPerPage");
 
   // Compute total number of pages.
-  let totalPages = Math.ceil(props.wholeDataLength / parseInt(itemsPerPage));
+  let totalPages = Math.ceil(props.totalItemsCount / parseInt(itemsPerPage));
 
   return (
     <div
@@ -118,7 +118,7 @@ const Paging = props => {
       </Select>
       <span style={{ marginLeft: 10 }}>
         {" "}
-        Total items: {props.wholeDataLength}{" "}
+        Total items: {props.totalItemsCount}{" "}
       </span>
     </div>
   );

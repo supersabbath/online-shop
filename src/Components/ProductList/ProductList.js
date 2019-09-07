@@ -24,8 +24,7 @@ const sortOptions = [
 
 ///
 //
-// In this web application, we use query strings, so that someone could share a link
-// and the other person could get the list of same products for example.
+// When doing product search, we use query strings, so that someone could share a link.
 // Because of this much of the state of this component actually lives in the URL.
 // This component is also responsible for retrieving the products it needs to show.
 // Again it determines which components it needs to show, from query string.
@@ -38,7 +37,7 @@ class ProductList extends Component {
     this.state = {
       unfinishedTasks: 0,
       openPriceDialog: false,
-      wholeDataLength: null,
+      totalItemsCount: null,
       items: []
     };
 
@@ -110,7 +109,7 @@ class ProductList extends Component {
     this.setState(ps => ({
       items: results.data,
       unfinishedTasks: ps.unfinishedTasks - 1,
-      wholeDataLength: results.totalLength
+      totalItemsCount: results.totalLength
     }));
   }
 
@@ -220,7 +219,7 @@ class ProductList extends Component {
           <Paging
             getValueFromQueryString={this.getValueFromQueryString}
             updateQueryStringAndRedirect={this.updateQueryStringAndRedirect}
-            wholeDataLength={this.state.wholeDataLength}
+            totalItemsCount={this.state.totalItemsCount}
           />
         )}
         {/* This is dialog which opens up for setting price filter */}
