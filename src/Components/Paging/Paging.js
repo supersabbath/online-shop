@@ -51,7 +51,7 @@ const Paging = props => {
         color="primary"
         disabled={props.getValueFromQueryString("page") === "1"}
         onClick={() => {
-          props.updateQueryStringAndRedirect({ page: 1 });
+          props.setNewValuesOnQueryString({ page: 1 });
         }}
         style={{ marginRight: 10 }}
       >
@@ -63,7 +63,7 @@ const Paging = props => {
         disabled={props.getValueFromQueryString("page") === "1"}
         onClick={() => {
           let val = parseInt(props.getValueFromQueryString("page"), 0) - 1;
-          props.updateQueryStringAndRedirect({ page: val });
+          props.setNewValuesOnQueryString({ page: val });
         }}
         style={{ marginRight: 10 }}
       >
@@ -80,17 +80,17 @@ const Paging = props => {
         onChange={e => {
           let val = e.target.value;
           if (parseInt(val, 0) > totalPages || parseInt(val, 0) < 1) return;
-          props.updateQueryStringAndRedirect({ page: val });
+          props.setNewValuesOnQueryString({ page: val });
         }}
       />
       of {totalPages}
       <IconButton
         size="small"
         color="primary"
-        disabled={props.getValueFromQueryString("page") === totalPages.toString()}
+        disabled={props.getValueFromQueryString("page") >= totalPages.toString()}
         onClick={() => {
           let val = parseInt(props.getValueFromQueryString("page"), 0) + 1;
-          props.updateQueryStringAndRedirect({ page: val });
+          props.setNewValuesOnQueryString({ page: val });
         }}
         style={{ marginLeft: 10, marginRight: 10 }}
       >
@@ -99,9 +99,9 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={props.getValueFromQueryString("page") === totalPages.toString()}
+        disabled={props.getValueFromQueryString("page") >= totalPages.toString()}
         onClick={() => {
-          props.updateQueryStringAndRedirect({ page: totalPages });
+          props.setNewValuesOnQueryString({ page: totalPages });
         }}
         style={{ marginRight: 10 }}
       >
@@ -111,7 +111,7 @@ const Paging = props => {
       <Select
         value={itemsPerPage}
         onChange={e => {
-          props.updateQueryStringAndRedirect({ itemsPerPage: e.target.value }, true);
+          props.setNewValuesOnQueryString({ itemsPerPage: e.target.value }, true);
         }}
       >
         {itemsPerPageOptions}

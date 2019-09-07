@@ -1,6 +1,9 @@
 import { sampleProducts } from "./Data";
 
+///
+//
 // Methods of this class are used to simulate calls to server.
+//
 class Api {
   getItemUsingID(id) {
     return new Promise((resolve, reject) => {
@@ -11,7 +14,7 @@ class Api {
     });
   }
 
-  _sortData(data, sortval) {
+  sortByPrice(data, sortval) {
     if (!sortval) return data;
 
     let items = JSON.parse(JSON.stringify(data));
@@ -30,21 +33,20 @@ class Api {
   }
 
   searchItems({
-    category,
-    term,
-    sortValue,
-    itemsPerPage,
-    popular,
-    usePriceFilter,
-    minPrice,
-    maxPrice,
-    page
+    category = "popular",
+    term = "",
+    sortValue = "lh",
+    itemsPerPage = 5,
+    usePriceFilter = false,
+    minPrice = 0,
+    maxPrice = 1000,
+    page = 1
   }) {
+
     return new Promise((resolve, reject) => {
-      minPrice = parseInt(minPrice, 0);
-      maxPrice = parseInt(maxPrice, 0);
 
       setTimeout(() => {
+
         let data = sampleProducts.filter(item => {
           if (
             usePriceFilter &&
@@ -68,11 +70,10 @@ class Api {
 
         let totalLength = data.length;
 
-        // Sort data if needed
-        data = this._sortData(data, sortValue);
+        if (sortValue) {
+          data = this.sortByPrice(data, sortValue);
+        }
 
-        // Get data from the requested page.
-        page = parseInt(page, 0);
         data = data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
         resolve({ data, totalLength });

@@ -26,6 +26,7 @@ class ConnectedMenu extends Component {
 
     this.state = {
 
+      // We keep in state which items in the menu are expanded or not.
       expandedMenuItems: dataForTheMenu.reduce((accum, current) => {
         if (current.children) {
           accum[current.id] = true;
@@ -39,7 +40,8 @@ class ConnectedMenu extends Component {
     this.renderMenu = this.renderMenu.bind(this)
   }
 
-  // Determines if a menu item is active or not.
+  // Determines if a menu item is active or not, in order to change
+  // its style.
   isMenuItemActive(item, location) {
 
     if (location.search) {
@@ -65,6 +67,8 @@ class ConnectedMenu extends Component {
     >
       {data
         .map((x, i) => {
+
+          // If this item has no children, rener a link.
           if (!x.children) {
             return (
               <NavLink

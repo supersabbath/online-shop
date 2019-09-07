@@ -42,7 +42,7 @@ class ProductList extends Component {
     };
 
     this.getValueFromQueryString = this.getValueFromQueryString.bind(this);
-    this.updateQueryStringAndRedirect = this.updateQueryStringAndRedirect.bind(this);
+    this.setNewValuesOnQueryString = this.setNewValuesOnQueryString.bind(this);
   }
 
   convertObjectToQueryString(params) {
@@ -53,11 +53,11 @@ class ProductList extends Component {
   }
 
 
-  updateQueryStringAndRedirect(newValues, restartPaging) {
+  setNewValuesOnQueryString(newValues, deletePagingParameter) {
     let currentQs = queryString.parse(this.props.location.search);
     let newQS = { ...currentQs, ...newValues };
 
-    if (restartPaging) {
+    if (deletePagingParameter) {
       delete newQS["page"];
     }
 
@@ -92,19 +92,12 @@ class ProductList extends Component {
   }
 
   async fetchData(props = this.props) {
+
     this.setState(ps => ({ unfinishedTasks: ps.unfinishedTasks + 1 }));
 
     // Make simulated request to server to get items
-    let results = await Api.searchItems({
-      category: this.getValueFromQueryString("category", props),
-      term: this.getValueFromQueryString("term", props),
-      page: this.getValueFromQueryString("page", props),
-      itemsPerPage: this.getValueFromQueryString("itemsPerPage", props),
-      minPrice: this.getValueFromQueryString("minPrice", props),
-      maxPrice: this.getValueFromQueryString("maxPrice", props),
-      sortValue: this.getValueFromQueryString("sortValue", props),
-      usePriceFilter: this.getValueFromQueryString("usePriceFilter", props)
-    });
+    let qsAsObject = queryString.parse(props.location.search);
+    let results = await Api.searchItems({ ...qsAsObject, usePriceFilter: qsAsObject.usePriceFilter === "true" });
 
     this.setState(ps => ({
       items: results.data,
@@ -122,7 +115,7 @@ class ProductList extends Component {
   }
 
   handleSortChange = e => {
-    this.updateQueryStringAndRedirect({ sortValue: e.value });
+    this.setNewValuesOnQueryString({ sortValue: e.value });
   };
 
   getPageTitle() {
@@ -160,7 +153,7 @@ class ProductList extends Component {
                   color="primary"
                   checked={this.getValueFromQueryString("usePriceFilter")}
                   onChange={e => {
-                    this.updateQueryStringAndRedirect(
+                    this.setNewValuesOnQueryString(
                       { usePriceFilter: e.target.checked },
                       true
                     );
@@ -198,7 +191,7 @@ class ProductList extends Component {
                 }
               }}
               onChange={e => {
-                this.updateQueryStringAndRedirect({ sortValue: e.target.value });
+                this.setNewValuesOnQueryString({ sortValue: e.target.value });
               }}
             >
               {sortOptions}
@@ -218,7 +211,7 @@ class ProductList extends Component {
         {this.state.unfinishedTasks === 0 && (
           <Paging
             getValueFromQueryString={this.getValueFromQueryString}
-            updateQueryStringAndRedirect={this.updateQueryStringAndRedirect}
+            setNewValuesOnQueryString={this.setNewValuesOnQueryString}
             totalItemsCount={this.state.totalItemsCount}
           />
         )}
@@ -229,7 +222,7 @@ class ProductList extends Component {
           max={this.getValueFromQueryString("maxPrice")}
           onSave={(min, max) => {
             this.setState({ openPriceDialog: false });
-            this.updateQueryStringAndRedirect({ minPrice: min, maxPrice: max }, true);
+            this.setNewValuesOnQueryString({ minPrice: min, maxPrice: max }, true);
           }}
           onClose={() =>
             this.setState({
