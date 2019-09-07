@@ -106,7 +106,7 @@ class ConnectedDetails extends Component {
           style={{
             marginBottom: 20,
             marginTop: 10,
-            fontSize: 26
+            fontSize: 24
           }}
         >
           {this.state.item.name}
@@ -155,7 +155,7 @@ class ConnectedDetails extends Component {
               Price: {this.state.item.price} $
             </div>
             {this.state.item.popular && (
-              <span style={{ marginTop: 5, fontSize: 14 }}>
+              <span style={{ marginTop: 5, fontSize: 14, color: "#228B22" }}>
                 (Popular product)
               </span>
             )}
@@ -193,7 +193,7 @@ class ConnectedDetails extends Component {
           style={{
             marginTop: 30,
             marginBottom: 10,
-            fontSize: 26
+            fontSize: 24
           }}
         >
           Product Description
@@ -220,7 +220,7 @@ class ConnectedDetails extends Component {
           style={{
             marginTop: 10,
             marginBottom: 20,
-            fontSize: 26
+            fontSize: 24
           }}
         >
           Related Items

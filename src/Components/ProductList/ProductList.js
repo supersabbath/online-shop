@@ -142,7 +142,7 @@ class ProductList extends Component {
       >
         {/* Header */}
         <div className="product-list-header">
-          <div style={{ flex: 1, fontSize: 26, marginTop: 10 }}>
+          <div style={{ flex: 1, fontSize: 24, marginTop: 10 }}>
             {this.getPageTitle()}
           </div>
           <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>

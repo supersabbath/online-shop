@@ -36,7 +36,7 @@ class ConnectedLogin extends Component {
             style={{
               color: "#504F5A",
               marginBottom: 50,
-              fontSize: 26,
+              fontSize: 24,
               textAlign: "center"
             }}
           >

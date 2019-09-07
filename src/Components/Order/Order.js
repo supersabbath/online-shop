@@ -24,7 +24,7 @@ class ConnectedOrder extends Component {
 
     return (
       <div style={{ padding: 10 }}>
-        <div style={{ fontSize: 26, marginTop: 10 }}>
+        <div style={{ fontSize: 24, marginTop: 10 }}>
           Please review order before purchase
         </div>
         <Table>
