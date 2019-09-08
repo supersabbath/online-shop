@@ -5,16 +5,22 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 
 class PriceDialog extends Component {
-  state = {};
+  state = {
+    open: false,
+  };
 
-  componentWillReceiveProps(np) {
-    // Whenever this dialog is opened, copy the value of min and max to state.
-    if (this.props.open === false && np.open === true) {
-      this.setState({
-        min: np.min,
-        max: np.max
-      });
+
+  // Only when this dialog is opened, copy the prices to local state.
+  static getDerivedStateFromProps(props, state) {
+    if (props.open === true && state.open === false) {
+      return {
+        min: props.min,
+        max: props.max,
+        open: props.open,
+      };
     }
+
+    return null;
   }
 
   render() {

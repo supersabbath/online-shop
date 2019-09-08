@@ -28,7 +28,7 @@ const sortOptions = [
 // Because of this much of the state of this component actually lives in the URL.
 // This component is also responsible for retrieving the products it needs to show.
 // Again it determines which components it needs to show, from query string.
-// It checks the query string on first render, and on every props change.
+// The query string is checked on initial mount and and when URL changes.
 //
 class ProductList extends Component {
   constructor(props) {
@@ -110,8 +110,21 @@ class ProductList extends Component {
     this.fetchData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.fetchData(nextProps);
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+
+    let currentQS = queryString.parse(this.props.location.search);
+    let oldQS = queryString.parse(prevProps.location.search)
+
+    // Check if the query strings changed.
+    let check1 = Object.entries(currentQS).some(([k, v]) => v !== oldQS[k]);
+    let check2 = Object.entries(oldQS).some(([k, v]) => v !== currentQS[k]);
+    let isDifferent = check1 || check2;
+
+    // We will refetch products only when query string changes.
+    if (isDifferent) {
+      this.fetchData(this.props);
+    }
   }
 
   handleSortChange = e => {
@@ -141,63 +154,58 @@ class ProductList extends Component {
         }}
       >
         {/* Header */}
-        <div className="product-list-header">
-          <div style={{ flex: 1, fontSize: 24, marginTop: 10 }}>
+        <div style={{ height: 50, display: "flex", alignItems: "center" }}>
+          <div style={{ flex: 1, fontSize: 24 }}>
             {this.getPageTitle()}
           </div>
-          <div style={{ maxWidth: 500, marginTop: 5, display: "flex" }}>
-            {/* Check box for price filter */}
-            <FormControlLabel
-              style={{ marginBottom: 5 }}
-              control={
-                <Checkbox
-                  color="primary"
-                  checked={this.getValueFromQueryString("usePriceFilter")}
-                  onChange={e => {
-                    this.setNewValuesOnQueryString(
-                      { usePriceFilter: e.target.checked },
-                      true
-                    );
-                  }}
-                />
+          <FormControlLabel
+            style={{ marginBottom: 5 }}
+            control={
+              <Checkbox
+                color="primary"
+                checked={this.getValueFromQueryString("usePriceFilter")}
+                onChange={e => {
+                  this.setNewValuesOnQueryString(
+                    { usePriceFilter: e.target.checked },
+                    true
+                  );
+                }}
+              />
+            }
+            label="Filter by price"
+          />
+          {this.getValueFromQueryString("usePriceFilter") && (
+            <Tooltip title="Click to change range" disableFocusListener>
+              <Button
+                variant="outlined"
+                style={{ marginRight: 20 }}
+                onClick={() => {
+                  this.setState({
+                    openPriceDialog: true
+                  });
+                }}
+              >
+                {this.getValueFromQueryString("minPrice") +
+                  "$ - " +
+                  this.getValueFromQueryString("maxPrice") +
+                  "$"}
+              </Button>
+            </Tooltip>
+          )}
+          <Select
+            style={{ maxWidth: 400, marginBottom: 10 }}
+            value={this.getValueFromQueryString("sortValue")}
+            MenuProps={{
+              style: {
+                maxHeight: 500
               }
-              label="Filter by price"
-            />
-            {/* Show price range button only if price filter is on */}
-            {this.getValueFromQueryString("usePriceFilter") && (
-              <Tooltip title="Click to change range" disableFocusListener>
-                <Button
-                  variant="outlined"
-                  style={{ marginRight: 20 }}
-                  onClick={() => {
-                    this.setState({
-                      openPriceDialog: true
-                    });
-                  }}
-                >
-                  {this.getValueFromQueryString("minPrice") +
-                    "$ - " +
-                    this.getValueFromQueryString("maxPrice") +
-                    "$"}
-                </Button>
-              </Tooltip>
-            )}
-            {/* Combo for sorting products */}
-            <Select
-              style={{ maxWidth: 400, marginBottom: 10 }}
-              value={this.getValueFromQueryString("sortValue")}
-              MenuProps={{
-                style: {
-                  maxHeight: 500
-                }
-              }}
-              onChange={e => {
-                this.setNewValuesOnQueryString({ sortValue: e.target.value });
-              }}
-            >
-              {sortOptions}
-            </Select>
-          </div>
+            }}
+            onChange={e => {
+              this.setNewValuesOnQueryString({ sortValue: e.target.value });
+            }}
+          >
+            {sortOptions}
+          </Select>
         </div>
         {/* Here go the items */}
         <div style={{ flex: 1 }}>
@@ -210,13 +218,15 @@ class ProductList extends Component {
             )}
         </div>
         {/* Paging component */}
-        {this.state.unfinishedTasks === 0 && (
-          <Paging
-            getValueFromQueryString={this.getValueFromQueryString}
-            setNewValuesOnQueryString={this.setNewValuesOnQueryString}
-            totalItemsCount={this.state.totalItemsCount}
-          />
-        )}
+        {
+          this.state.unfinishedTasks === 0 && (
+            <Paging
+              getValueFromQueryString={this.getValueFromQueryString}
+              setNewValuesOnQueryString={this.setNewValuesOnQueryString}
+              totalItemsCount={this.state.totalItemsCount}
+            />
+          )
+        }
         {/* This is dialog which opens up for setting price filter */}
         <PriceDialog
           open={this.state.openPriceDialog}
@@ -232,7 +242,7 @@ class ProductList extends Component {
             })
           }
         />
-      </div>
+      </div >
     );
   }
 }

@@ -6,10 +6,7 @@
     margin:auto;
  }
  
-.product-list-header {
-    height: 50px;
-     display: flex;
-}
+ 
 
 .react-dropdown {
     font-size: 13px;

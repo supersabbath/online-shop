@@ -52,9 +52,13 @@ class ConnectedDetails extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.fetchProductUsingID(nextProps.match.params.id);
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.fetchProductUsingID(this.props.match.params.id);
+
+    }
   }
+
 
   componentDidMount() {
     this.isCompMounted = true;
@@ -80,7 +84,7 @@ class ConnectedDetails extends Component {
       return null;
     }
 
-    let settings = {
+    let sliderSettings = {
       dots: true,
       infinite: true,
       speed: 500,
@@ -89,7 +93,7 @@ class ConnectedDetails extends Component {
       slidesToScroll: 1
     };
 
-    let settingsRelatedItems = {
+    let sliderSettingsRelatedItems = {
       dots: true,
       infinite: true,
       speed: 500,
@@ -101,7 +105,7 @@ class ConnectedDetails extends Component {
     };
 
     return (
-      <div className="details" style={{ padding: 10 }}>
+      <div style={{ padding: 10 }}>
         <div
           style={{
             marginBottom: 20,
@@ -124,7 +128,7 @@ class ConnectedDetails extends Component {
               borderRadius: "5px"
             }}
           >
-            <Slider {...settings}>
+            <Slider {...sliderSettings}>
               {this.state.item.imageUrls.map(x => {
                 // NOTE: If I pass img directly instead of wrapping it in div, this component seems to mess up its styles.
                 return (
@@ -239,7 +243,7 @@ class ConnectedDetails extends Component {
           </div>
         ) : (
             <div style={{ width: 600, height: 320, paddingLeft: 40 }}>
-              <Slider {...settingsRelatedItems}>
+              <Slider {...sliderSettingsRelatedItems}>
                 {this.state.relatedItems.map(x => {
                   return <Item key={x.id} item={x} />;
                 })}
