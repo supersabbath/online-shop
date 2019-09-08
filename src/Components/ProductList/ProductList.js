@@ -27,7 +27,7 @@ const sortOptions = [
 // When doing product search, we use query strings, so that someone could share a link.
 // Because of this much of the state of this component actually lives in the URL.
 // This component is also responsible for retrieving the products it needs to show.
-// Again it determines which components it needs to show, from query string.
+// Again it determines which products it needs to show, from query string.
 // The query string is checked on initial mount and and when URL changes.
 //
 class ProductList extends Component {
