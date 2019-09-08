@@ -18,8 +18,6 @@ const CartRow = props => {
         <Link to={`/details/${item.id}`}>
           <div
             onClick={() => {
-              //   User will be navigated to item URL by clicking this item due to link above,
-              //   and also we close this dialog.
               props.dispatch(showCartDlg(false));
             }}
           >
@@ -36,8 +34,6 @@ const CartRow = props => {
           onChange={e => {
             let quantity = parseInt(e.target.value, 10);
             if (quantity < 0) return;
-
-            // Update quantity for this cart item.
             props.dispatch(
               updateCartItemQnt({
                 id: item.id,
@@ -51,7 +47,6 @@ const CartRow = props => {
         <Button
           color="secondary"
           onClick={() => {
-            // Delete this cart item.
             props.dispatch(deleteCartItem(item.id));
           }}
         >
