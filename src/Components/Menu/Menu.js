@@ -40,8 +40,7 @@ class ConnectedMenu extends Component {
     this.renderMenu = this.renderMenu.bind(this)
   }
 
-  // Determines if a menu item is active or not, in order to change
-  // its style.
+  // Determines if a menu item is active, in order to change its style.
   isMenuItemActive(item, location) {
 
     if (location.search) {
@@ -49,6 +48,7 @@ class ConnectedMenu extends Component {
         location.search
       ).category;
 
+      // If there is no search term in URL, we assume user directly clicked the menu item.
       let isDirectClick =
         queryString.parse(location.search).term === undefined;
 
