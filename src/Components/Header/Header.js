@@ -32,6 +32,7 @@ const mapStateToProps = state => {
   };
 };
 
+// Option items for product categories.
 const categoryOptions = categories.map(x => {
   return (
     <MenuItem key={x.name} value={x.name}>
@@ -44,7 +45,7 @@ class ConnectedHeader extends Component {
   state = {
     searchTerm: "",
     anchorEl: null,
-    categoryFilter: categories[0].name
+    categoryFilterValue: categories[0].name
   };
 
   render() {
@@ -53,9 +54,9 @@ class ConnectedHeader extends Component {
     return (
       <AppBar
         position="static"
-        style={{ backgroundColor: "#FAFAFB", height: 80 }}
+        style={{ backgroundColor: "#FAFAFB", padding: 10 }}
       >
-        <Toolbar style={{ height: "100%" }}>
+        <Toolbar>
           <div className="left-part">
             <IconButton
               onClick={() => {
@@ -78,19 +79,19 @@ class ConnectedHeader extends Component {
               onChange={e => {
                 this.setState({ searchTerm: e.target.value });
               }}
-              style={{ marginLeft: 40, width: 250, paddingBottom: 14 }}
+              style={{ marginLeft: 30, width: 250, paddingBottom: 14 }}
             />
 
             <Select
-              style={{ maxWidth: 200, marginTop: 1, marginLeft: 20 }}
-              value={this.state.categoryFilter}
+              style={{ maxWidth: 200, marginLeft: 20 }}
+              value={this.state.categoryFilterValue}
               MenuProps={{
                 style: {
                   maxHeight: 500
                 }
               }}
               onChange={e => {
-                this.setState({ categoryFilter: e.target.value });
+                this.setState({ categoryFilterValue: e.target.value });
               }}
             >
               {categoryOptions}
@@ -101,10 +102,9 @@ class ConnectedHeader extends Component {
               variant="outlined"
               color="primary"
               onClick={() => {
-                // Generate new URL to redirect user to
                 this.props.history.push(
                   "/search/?category=" +
-                  this.state.categoryFilter +
+                  this.state.categoryFilterValue +
                   "&term=" +
                   this.state.searchTerm
                 );
@@ -131,14 +131,13 @@ class ConnectedHeader extends Component {
                   onClick={event => {
                     this.setState({ anchorEl: event.currentTarget });
                   }}
-                  style={{ backgroundColor: "#3f51b5", marginLeft: 50 }}
+                  style={{ backgroundColor: "#3f51b5", marginRight: 10 }}
                 >
                   <Person />
                 </Avatar>
               )}
             <IconButton
               aria-label="Cart"
-              style={{ position: "absolute", right: 0 }}
               onClick={() => {
                 this.props.dispatch(showCartDlg(true));
               }}
