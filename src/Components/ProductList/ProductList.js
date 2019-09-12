@@ -55,6 +55,8 @@ class ProductList extends Component {
 
   setNewValuesOnQueryString(newValues, deletePagingParameter) {
     let currentQs = queryString.parse(this.props.location.search);
+
+    // Merge old and new query string objects.
     let newQS = { ...currentQs, ...newValues };
 
     if (deletePagingParameter) {
