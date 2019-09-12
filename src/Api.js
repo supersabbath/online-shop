@@ -15,18 +15,14 @@ class Api {
   }
 
   sortByPrice(data, sortval) {
-    if (!sortval) return data;
+    if (sortval !== "lh" && sortval !== "hl") return data;
 
-    let items = JSON.parse(JSON.stringify(data));
+    let items = [...data];
 
     if (sortval === "lh") {
-      items.sort((a, b) =>
-        a.price > b.price ? 1 : b.price > a.price ? -1 : 0
-      );
-    } else if (sortval === "hl") {
-      items.sort((a, b) =>
-        a.price < b.price ? 1 : b.price < a.price ? -1 : 0
-      );
+      items.sort((a, b) => a.price - b.price);
+    } else {
+      items.sort((a, b) => b.price - a.price);
     }
 
     return items;
@@ -70,9 +66,7 @@ class Api {
 
         let totalLength = data.length;
 
-        if (sortValue) {
-          data = this.sortByPrice(data, sortValue);
-        }
+        data = this.sortByPrice(data, sortValue);
 
         data = data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
