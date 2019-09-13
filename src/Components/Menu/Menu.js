@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import "./Menu.css";
 import { NavLink } from "react-router-dom";
 import queryString from "query-string";
 import { connect } from "react-redux";
@@ -68,7 +67,7 @@ class ConnectedMenu extends Component {
       {data
         .map((x, i) => {
 
-          // If this item has no children, rener a link.
+          // If this item has no children put list item in a link.
           if (!x.children) {
             return (
               <NavLink
@@ -131,7 +130,9 @@ class ConnectedMenu extends Component {
   render() {
     if (!this.props.showMenu) return null;
     return (
-      <div className="menu">
+      <div style={{
+        backgroundColor: "#FAFAFB"
+      }}>
         {/* Render our menu */}
         {this.renderMenu(this.state.dataForTheMenu)}
       </div>

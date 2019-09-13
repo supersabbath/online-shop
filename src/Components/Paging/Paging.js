@@ -8,6 +8,7 @@ import First from "@material-ui/icons/FirstPage";
 import Last from "@material-ui/icons/LastPage";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   input: {
@@ -15,17 +16,7 @@ const styles = theme => ({
   }
 });
 
-const itemsPerPageOptions = [
-  <MenuItem key={"5"} value={"5"}>
-    5
-  </MenuItem>,
-  <MenuItem key={"10"} value={"10"}>
-    10
-  </MenuItem>,
-  <MenuItem key={"50"} value={"50"}>
-    50
-  </MenuItem>
-];
+
 
 
 const Paging = props => {
@@ -38,11 +29,8 @@ const Paging = props => {
     <div
       style={{
         display: "flex",
-        marginBottom: 10,
-        marginTop: 15,
-        height: 60,
-        fontSize: 13,
-        color: "gray",
+        justifyContent: "center",
+        padding: 10,
         alignItems: "center"
       }}
     >
@@ -69,21 +57,7 @@ const Paging = props => {
       >
         <Left />
       </IconButton>
-      Page:
-      <TextField
-        type="number"
-        style={{ marginLeft: 5, width: 50, marginRight: 10 }}
-        inputProps={{
-          className: props.classes.input
-        }}
-        value={props.getValueFromQueryString("page")}
-        onChange={e => {
-          let val = e.target.value;
-          if (parseInt(val, 0) > totalPages || parseInt(val, 0) < 1) return;
-          props.setNewValuesOnQueryString({ page: val });
-        }}
-      />
-      of {totalPages}
+      <Typography variant="body1">Page {props.getValueFromQueryString("page")} of {totalPages}</Typography>
       <IconButton
         size="small"
         color="primary"
@@ -107,19 +81,7 @@ const Paging = props => {
       >
         <Last />
       </IconButton>
-      <span style={{ marginRight: 10 }}> Items per page: </span>
-      <Select
-        value={itemsPerPage}
-        onChange={e => {
-          props.setNewValuesOnQueryString({ itemsPerPage: e.target.value }, true);
-        }}
-      >
-        {itemsPerPageOptions}
-      </Select>
-      <span style={{ marginLeft: 10 }}>
-        {" "}
-        Total items: {props.totalItemsCount}{" "}
-      </span>
+
     </div>
   );
 };

@@ -85,7 +85,7 @@ class ProductList extends Component {
       case "sortValue":
         return qs.sortValue || "lh";
       case "itemsPerPage":
-        return qs.itemsPerPage || "5";
+        return qs.itemsPerPage || "10";
       case "directCategoryClick":
         return qs.term === undefined;
       default:
@@ -150,16 +150,20 @@ class ProductList extends Component {
       <div
         style={{
           display: "flex",
-          padding: 10,
           flexDirection: "column",
           height: "100%"
         }}
       >
         {/* Header */}
-        <div style={{ height: 50, display: "flex", alignItems: "center" }}>
+        <div style={{ padding: 10, display: "flex", alignItems: "center" }}>
           <div style={{ flex: 1, fontSize: 24 }}>
             {this.getPageTitle()}
+            {this.state.unfinishedTasks === 0 && (
+              <div style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
+                Total results found: {this.state.totalItemsCount}
+              </div>)}
           </div>
+
           <FormControlLabel
             style={{ marginBottom: 5 }}
             control={

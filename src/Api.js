@@ -32,7 +32,7 @@ class Api {
     category = "popular",
     term = "",
     sortValue = "lh",
-    itemsPerPage = 5,
+    itemsPerPage = 10,
     usePriceFilter = false,
     minPrice = 0,
     maxPrice = 1000,

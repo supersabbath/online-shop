@@ -37,8 +37,6 @@ class ConnectedDetails extends Component {
     // Now, get items from same category.
     let relatedItems = await Api.searchItems({
       category: item.category,
-      page: "1",
-      itemsPerPage: "5"
     });
 
     if (this.isCompMounted) {
@@ -94,10 +92,7 @@ class ConnectedDetails extends Component {
     };
 
     let sliderSettingsRelatedItems = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      focusOnSelect: false,
+      ...sliderSettings,
       slidesToShow:
         this.state.relatedItems.length < 3 ? this.state.relatedItems.length : 3,
       slidesToScroll:
@@ -193,6 +188,7 @@ class ConnectedDetails extends Component {
           </div>
         </div>
 
+        {/* Item description */}
         <div
           style={{
             marginTop: 30,
@@ -202,9 +198,6 @@ class ConnectedDetails extends Component {
         >
           Product Description
         </div>
-
-
-        {/* Item description */}
         <div
           style={{
             marginLeft: 5,
@@ -219,7 +212,7 @@ class ConnectedDetails extends Component {
           ) : { __html: "Not available" }}
         />
 
-
+        {/* Relateditems */}
         <div
           style={{
             marginTop: 10,
@@ -229,28 +222,28 @@ class ConnectedDetails extends Component {
         >
           Related Items
         </div>
-
-        {/* Relateditems */}
-        {this.state.relatedItems.length === 0 ? (
-          <div
-            style={{
-              fontSize: 13,
-              marginLeft: 10,
-              marginBottom: 10
-            }}
-          >
-            Not available
+        {
+          this.state.relatedItems.length === 0 ? (
+            <div
+              style={{
+                fontSize: 13,
+                marginLeft: 10,
+                marginBottom: 10
+              }}
+            >
+              Not available
           </div>
-        ) : (
-            <div style={{ width: 600, height: 320, paddingLeft: 40 }}>
-              <Slider {...sliderSettingsRelatedItems}>
-                {this.state.relatedItems.map(x => {
-                  return <Item key={x.id} item={x} />;
-                })}
-              </Slider>
-            </div>
-          )}
-      </div>
+          ) : (
+              <div style={{ width: 600, height: 320, paddingLeft: 40 }}>
+                <Slider {...sliderSettingsRelatedItems}>
+                  {this.state.relatedItems.map(x => {
+                    return <Item key={x.id} item={x} />;
+                  })}
+                </Slider>
+              </div>
+            )
+        }
+      </div >
     );
   }
 }
