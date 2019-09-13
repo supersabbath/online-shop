@@ -134,18 +134,18 @@ class ProductList extends Component {
   };
 
   getPageTitle() {
-    let pageTitle;
+    let pageTitle = "Search results";
     if (this.getValueFromQueryString("category") === "popular") {
       pageTitle = "Popular products";
     } else if (this.getValueFromQueryString("directCategoryClick")) {
       pageTitle = this.getValueFromQueryString("category");
-    } else {
-      pageTitle = "Search results";
-    }
+    }  
     return pageTitle;
   }
 
   render() {
+    let pageTitle=this.getPageTitle();
+    
     return (
       <div
         style={{
@@ -157,7 +157,7 @@ class ProductList extends Component {
         {/* Header */}
         <div style={{ padding: 10, display: "flex", alignItems: "center" }}>
           <div style={{ flex: 1, fontSize: 24 }}>
-            {this.getPageTitle()}
+            <div>{pageTitle}</div>
             {this.state.unfinishedTasks === 0 && (
               <div style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
                 Total results found: {this.state.totalItemsCount}
