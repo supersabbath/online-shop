@@ -30,7 +30,6 @@ const Paging = props => {
       style={{
         display: "flex",
         justifyContent: "center",
-        padding: 10,
         alignItems: "center"
       }}
     >
