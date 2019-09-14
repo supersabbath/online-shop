@@ -171,7 +171,7 @@ class ConnectedDetails extends Component {
           Related Items
         </div>
         {
-          this.state.relatedItems.map(x => {
+          this.state.relatedItems.slice(0, 3).map(x => {
             return <Item key={x.id} item={x} />;
           })
         }
