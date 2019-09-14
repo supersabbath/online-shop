@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Details.css";
 import Button from "@material-ui/core/Button";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -8,9 +7,7 @@ import Api from "../../Api";
 import Item from "../Item/Item";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
 
 var Remarkable = require("remarkable");
 
@@ -31,10 +28,8 @@ class ConnectedDetails extends Component {
   async fetchProductUsingID(id) {
     this.setState(ps => ({ unfinishedTasks: ps.unfinishedTasks + 1 }));
 
-    // First, let's get the item, details of which we want to show.
     let item = await Api.getItemUsingID(id);
 
-    // Now, get items from same category.
     let relatedItems = await Api.searchItems({
       category: item.category,
     });
@@ -82,23 +77,6 @@ class ConnectedDetails extends Component {
       return null;
     }
 
-    let sliderSettings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      focusOnSelect: false,
-      slidesToShow: 1,
-      slidesToScroll: 1
-    };
-
-    let sliderSettingsRelatedItems = {
-      ...sliderSettings,
-      slidesToShow:
-        this.state.relatedItems.length < 3 ? this.state.relatedItems.length : 3,
-      slidesToScroll:
-        this.state.relatedItems.length < 3 ? this.state.relatedItems.length : 3
-    };
-
     return (
       <div style={{ padding: 10 }}>
         <div
@@ -111,37 +89,7 @@ class ConnectedDetails extends Component {
           {this.state.item.name}
         </div>
         <div style={{ display: "flex" }}>
-          <div
-            style={{
-              width: 290,
-              height: 290,
-              paddingTop: 5,
-              paddingBottom: 5,
-              paddingLeft: 40,
-              paddingRight: 40,
-              border: "1px solid lightgray",
-              borderRadius: "5px"
-            }}
-          >
-            <Slider {...sliderSettings}>
-              {this.state.item.imageUrls.map(x => {
-                // NOTE: If I pass img directly instead of wrapping it in div, this component seems to mess up its styles.
-                return (
-                  <div key={x}>
-                    <img
-                      alt="Item"
-                      style={{
-                        objectFit: "contain",
-                        height: 290,
-                        width: 290
-                      }}
-                      src={x}
-                    />
-                  </div>
-                );
-              })}
-            </Slider>
-          </div>
+          <img src={this.state.item.imageUrls[0]} width={250} height={250} style={{ borderRadius: "5%", objectFit: "cover" }} />
           <div
             style={{
               flex: 1,
@@ -216,32 +164,16 @@ class ConnectedDetails extends Component {
         <div
           style={{
             marginTop: 10,
-            marginBottom: 20,
+            marginBottom: 10,
             fontSize: 24
           }}
         >
           Related Items
         </div>
         {
-          this.state.relatedItems.length === 0 ? (
-            <div
-              style={{
-                fontSize: 13,
-                marginLeft: 10,
-                marginBottom: 10
-              }}
-            >
-              Not available
-          </div>
-          ) : (
-              <div style={{ width: 700, height: 320, paddingLeft: 40 }}>
-                <Slider {...sliderSettingsRelatedItems}>
-                  {this.state.relatedItems.map(x => {
-                    return <Item key={x.id} item={x} />;
-                  })}
-                </Slider>
-              </div>
-            )
+          this.state.relatedItems.map(x => {
+            return <Item key={x.id} item={x} />;
+          })
         }
       </div >
     );
