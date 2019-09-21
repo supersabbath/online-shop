@@ -25,7 +25,6 @@ class ConnectedMenu extends Component {
 
     this.state = {
 
-      // We keep in state which items in the menu are expanded or not.
       expandedMenuItems: dataForTheMenu.reduce((accum, current) => {
         if (current.children) {
           accum[current.id] = true;
@@ -39,20 +38,16 @@ class ConnectedMenu extends Component {
     this.renderMenu = this.renderMenu.bind(this)
   }
 
-  // Determines if a menu item is active, in order to change its style.
+  // We determine if user clicked this menu item from the URL.
   isMenuItemActive(item, location) {
 
+    // For now, if there is a query string, we check if this menu item is active in following way.
     if (location.search) {
-      let categoryFromQueryString = queryString.parse(
+      let queryStringParsed = queryString.parse(
         location.search
-      ).category;
-
-      // If there is no search term in URL, we assume user directly clicked the menu item.
-      let isDirectClick =
-        queryString.parse(location.search).term === undefined;
-
+      );
       return (
-        isDirectClick && item.name === categoryFromQueryString
+        queryStringParsed.directClick === "true" && item.name === queryStringParsed.category
       );
     }
 
@@ -123,7 +118,7 @@ class ConnectedMenu extends Component {
 
 
         })}
-    </List>)
+    </List >)
   }
 
 
@@ -131,7 +126,8 @@ class ConnectedMenu extends Component {
     if (!this.props.showMenu) return null;
     return (
       <div style={{
-        backgroundColor: "#FAFAFB"
+        backgroundColor: "#FAFAFB",
+        minWidth: 250
       }}>
         {/* Render our menu */}
         {this.renderMenu(this.state.dataForTheMenu)}

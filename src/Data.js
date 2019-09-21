@@ -32,10 +32,7 @@ const sampleProducts = [
     name: "Seiko Silvertone Black Dial Solar Calendar Watch",
     category: "Jewelry and Watches",
     price: 200,
-    description:
-      "* 36 mm stainless steel case with mineral dial window\n" +
-      "* Automatic self-wind movement with analog display\n" +
-      "* Stainless steel bracelet with fold-over clasp",
+
     popular: false,
     imageUrls: [
       "https://images-na.ssl-images-amazon.com/images/I/81XUKQex4nL._UY445_.jpg",
@@ -65,8 +62,8 @@ const sampleProducts = [
     category: "Computers",
     price: 102,
     description:
-      "* Amazing angles: Share consistent high-color fidelity with In-Plane Switching (IPS) technology across a 27-inch diagonal screen. A stunning vantage point for everyone, from almost anywhere\n" +
-      "* Distinctively modern and accessible: The contemporary thin profile is enhanced by the modern white and silver colors.The open wedge stand design provides convenient access to VGA and dual HDMI ports",
+      "Amazing angles: Share consistent high-color fidelity with In-Plane Switching (IPS) technology across a 27-inch diagonal screen. A stunning vantage point for everyone, from almost anywhere" +
+      "Distinctively modern and accessible: The contemporary thin profile is enhanced by the modern white and silver colors.The open wedge stand design provides convenient access to VGA and dual HDMI ports",
 
     popular: true,
     imageUrls: [
@@ -184,7 +181,7 @@ const dataForTheMenu = ((categories) => {
         return {
           name: x.name,
           id: 2 + i,
-          url: "/search/?category=" + x.name,
+          url: "/search/?category=" + x.name + "&directClick=true",
           icon: x.icon
         };
       })

@@ -40,8 +40,8 @@ class ProductList extends Component {
       items: []
     };
 
-    this.getValueFromQueryString = this.getValueFromQueryString.bind(this);
-    this.setNewValuesOnQueryString = this.setNewValuesOnQueryString.bind(this);
+    this.valueFromQueryString = this.valueFromQueryString.bind(this);
+    this.updateQueryString = this.updateQueryString.bind(this);
   }
 
   convertObjectToQueryString(params) {
@@ -51,20 +51,13 @@ class ProductList extends Component {
   }
 
 
-  setNewValuesOnQueryString(newValues, deletePagingParameter) {
+  updateQueryString(newValues) {
     let currentQs = queryString.parse(this.props.location.search);
-
-    // Merge old and new query string objects.
     let newQS = { ...currentQs, ...newValues };
-
-    if (deletePagingParameter) {
-      delete newQS["page"];
-    }
-
     this.props.history.push("/search/?" + this.convertObjectToQueryString(newQS));
   }
 
-  getValueFromQueryString(name, props = this.props) {
+  valueFromQueryString(name, props = this.props) {
     let qs = queryString.parse(props.location.search);
 
     switch (name) {
@@ -84,8 +77,8 @@ class ProductList extends Component {
         return qs.sortValue || "lh";
       case "itemsPerPage":
         return qs.itemsPerPage || "10";
-      case "directCategoryClick":
-        return qs.term === undefined;
+      case "directClick":
+        return qs.directClick === "true";
       default:
         return undefined;
     }
@@ -128,22 +121,22 @@ class ProductList extends Component {
   }
 
   handleSortChange = e => {
-    this.setNewValuesOnQueryString({ sortValue: e.value });
+    this.updateQueryString({ sortValue: e.value });
   };
 
   getPageTitle() {
     let pageTitle = "Search results";
-    if (this.getValueFromQueryString("category") === "popular") {
+    if (this.valueFromQueryString("category") === "popular") {
       pageTitle = "Popular products";
-    } else if (this.getValueFromQueryString("directCategoryClick")) {
-      pageTitle = this.getValueFromQueryString("category");
-    }  
+    } else if (this.valueFromQueryString("directClick")) {
+      pageTitle = this.valueFromQueryString("category");
+    }
     return pageTitle;
   }
 
   render() {
-    let pageTitle=this.getPageTitle();
-    
+    let pageTitle = this.getPageTitle();
+
     return (
       <div
         style={{
@@ -167,18 +160,17 @@ class ProductList extends Component {
             control={
               <Checkbox
                 color="primary"
-                checked={this.getValueFromQueryString("usePriceFilter")}
+                checked={this.valueFromQueryString("usePriceFilter")}
                 onChange={e => {
-                  this.setNewValuesOnQueryString(
-                    { usePriceFilter: e.target.checked },
-                    true
+                  this.updateQueryString(
+                    { usePriceFilter: e.target.checked, page: "1" }
                   );
                 }}
               />
             }
             label="Filter by price"
           />
-          {this.getValueFromQueryString("usePriceFilter") && (
+          {this.valueFromQueryString("usePriceFilter") && (
             <Tooltip title="Click to change range" disableFocusListener>
               <Button
                 variant="outlined"
@@ -189,23 +181,23 @@ class ProductList extends Component {
                   });
                 }}
               >
-                {this.getValueFromQueryString("minPrice") +
+                {this.valueFromQueryString("minPrice") +
                   "$ - " +
-                  this.getValueFromQueryString("maxPrice") +
+                  this.valueFromQueryString("maxPrice") +
                   "$"}
               </Button>
             </Tooltip>
           )}
           <Select
             style={{ maxWidth: 400, marginBottom: 10 }}
-            value={this.getValueFromQueryString("sortValue")}
+            value={this.valueFromQueryString("sortValue")}
             MenuProps={{
               style: {
                 maxHeight: 500
               }
             }}
             onChange={e => {
-              this.setNewValuesOnQueryString({ sortValue: e.target.value });
+              this.updateQueryString({ sortValue: e.target.value });
             }}
           >
             {sortOptions}
@@ -225,8 +217,8 @@ class ProductList extends Component {
         {
           this.state.unfinishedTasks === 0 && (
             <Paging
-              getValueFromQueryString={this.getValueFromQueryString}
-              setNewValuesOnQueryString={this.setNewValuesOnQueryString}
+              valueFromQueryString={this.valueFromQueryString}
+              updateQueryString={this.updateQueryString}
               totalItemsCount={this.state.totalItemsCount}
             />
           )
@@ -234,11 +226,11 @@ class ProductList extends Component {
         {/* This is dialog which opens up for setting price filter */}
         <PriceDialog
           open={this.state.openPriceDialog}
-          min={this.getValueFromQueryString("minPrice")}
-          max={this.getValueFromQueryString("maxPrice")}
+          min={this.valueFromQueryString("minPrice")}
+          max={this.valueFromQueryString("maxPrice")}
           onSave={(min, max) => {
             this.setState({ openPriceDialog: false });
-            this.setNewValuesOnQueryString({ minPrice: min, maxPrice: max }, true);
+            this.updateQueryString({ minPrice: min, maxPrice: max, page: "1" });
           }}
           onClose={() =>
             this.setState({

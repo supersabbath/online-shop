@@ -11,8 +11,7 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^3.0.1",
-    "redux": "^4.0.0",
-    "remarkable": "^1.7.1"
+    "redux": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

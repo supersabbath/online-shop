@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 
 
-var Remarkable = require("remarkable");
 
 class ConnectedDetails extends Component {
   constructor(props) {
@@ -62,11 +61,7 @@ class ConnectedDetails extends Component {
     this.isCompMounted = false;
   }
 
-  // Product information contains markup, we use Remarkable for this.
-  getRawMarkup(data) {
-    const md = new Remarkable();
-    return { __html: md.render(data) };
-  }
+
 
   render() {
     if (this.state.unfinishedTasks !== 0) {
@@ -89,7 +84,7 @@ class ConnectedDetails extends Component {
           {this.state.item.name}
         </div>
         <div style={{ display: "flex" }}>
-          <img src={this.state.item.imageUrls[0]} width={250} height={250} style={{ borderRadius: "5%", objectFit: "cover" }} />
+          <img src={this.state.item.imageUrls[0]} alt="" width={250} height={250} style={{ borderRadius: "5%", objectFit: "cover" }} />
           <div
             style={{
               flex: 1,
@@ -140,7 +135,7 @@ class ConnectedDetails extends Component {
         <div
           style={{
             marginTop: 30,
-            marginBottom: 10,
+            marginBottom: 20,
             fontSize: 24
           }}
         >
@@ -151,19 +146,16 @@ class ConnectedDetails extends Component {
             marginLeft: 5,
             maxHeight: 200,
             fontSize: 13,
-            marginTop: !this.state.item.description && 20,
-            marginBottom: !this.state.item.description && 20,
             overflow: "auto"
           }}
-          dangerouslySetInnerHTML={this.state.item.description ? this.getRawMarkup(
-            this.state.item.description
-          ) : { __html: "Not available" }}
-        />
+        >
+          {this.state.item.description ? this.state.item.description : <div style={{ color: "gray" }}>Not available</div>}
+        </div>
 
         {/* Relateditems */}
         <div
           style={{
-            marginTop: 10,
+            marginTop: 30,
             marginBottom: 10,
             fontSize: 24
           }}
