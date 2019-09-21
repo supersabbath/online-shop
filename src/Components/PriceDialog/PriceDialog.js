@@ -6,21 +6,21 @@ import TextField from "@material-ui/core/TextField";
 
 class PriceDialog extends Component {
   state = {
-    open: false,
+    lastOpenedStatus: false,
   };
 
 
   // Only when this dialog is opened, copy the prices to local state.
   static getDerivedStateFromProps(props, state) {
-    if (props.open === true && state.open === false) {
+    if (props.open === true && state.lastOpenedStatus === false) {
       return {
         min: props.min,
         max: props.max,
-        open: props.open,
+        lastOpenedStatus: true,
       };
     }
 
-    return null;
+    return { lastOpenedStatus: props.open };
   }
 
   render() {
