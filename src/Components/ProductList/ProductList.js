@@ -45,9 +45,8 @@ class ProductList extends Component {
   }
 
   convertObjectToQueryString(params) {
-    var esc = encodeURIComponent;
     return Object.entries(params).map(([k, v]) => {
-      return esc(k) + "=" + esc(v !== undefined ? v : "")
+      return encodeURIComponent(k) + "=" + encodeURIComponent(v !== undefined ? v : "")
     }).join("&");
   }
 
