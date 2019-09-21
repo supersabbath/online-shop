@@ -22,14 +22,13 @@ const sortOptions = [
   </MenuItem>
 ];
 
-///
-//
-// When doing product search, we use query strings, so that someone could share a link.
+
+// When searching for products, we embed search related information in the URL,
+// using query strings; this is so that someone could share link about search results for example.
 // Because of this much of the state of this component actually lives in the URL.
-// This component is also responsible for retrieving the products it needs to show.
-// Again it determines which products it needs to show, from query string.
+// Also, this component is responsible for retrieving the products it needs to show.
+// It determines which products it needs to show, from query string.
 // The query string is checked on initial mount and and when URL changes.
-//
 class ProductList extends Component {
   constructor(props) {
     super(props);
