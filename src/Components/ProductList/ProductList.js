@@ -54,12 +54,12 @@ class ProductList extends Component {
     this.props.history.push("/search/?" + this.convertObjectToQueryString(newQS));
   }
 
-  async fetchData(props = this.props) {
+  async fetchData() {
 
     this.setState(ps => ({ unfinishedTasks: ps.unfinishedTasks + 1 }));
 
     // Make simulated request to server to get items
-    let qsAsObject = queryString.parse(props.location.search);
+    let qsAsObject = queryString.parse(this.props.location.search);
     let results = await Api.searchItems({ ...qsAsObject, usePriceFilter: qsAsObject.usePriceFilter === "true" });
 
     this.setState(ps => ({
@@ -86,7 +86,7 @@ class ProductList extends Component {
 
     // We will refetch products only when query string changes.
     if (isDifferent) {
-      this.fetchData(this.props);
+      this.fetchData();
     }
   }
 
@@ -209,7 +209,7 @@ class ProductList extends Component {
         <PriceDialog
           open={this.state.openPriceDialog}
           min={minPrice}
-          max={minPrice}
+          max={maxPrice}
           onSave={(min, max) => {
             this.setState({ openPriceDialog: false });
             this.updateQueryString({ minPrice: min, maxPrice: max, page: "1" });
