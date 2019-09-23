@@ -17,7 +17,8 @@ const styles = theme => ({
 
 
 const Paging = props => {
-  let itemsPerPage = props.valueFromQueryString("itemsPerPage");
+  let itemsPerPage = props.itemsPerPage;
+  let page = props.page;
 
   // Compute total number of pages.
   let totalPages = Math.ceil(props.totalItemsCount / parseInt(itemsPerPage));
@@ -33,7 +34,7 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={props.valueFromQueryString("page") === "1"}
+        disabled={page === "1"}
         onClick={() => {
           props.updateQueryString({ page: 1 });
         }}
@@ -44,22 +45,22 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={props.valueFromQueryString("page") === "1"}
+        disabled={page === "1"}
         onClick={() => {
-          let val = parseInt(props.valueFromQueryString("page"), 0) - 1;
+          let val = parseInt(page, 0) - 1;
           props.updateQueryString({ page: val });
         }}
         style={{ marginRight: 10 }}
       >
         <Left />
       </IconButton>
-      <Typography variant="body1">Page {props.valueFromQueryString("page")} of {totalPages}</Typography>
+      <Typography variant="body1">Page {page} of {totalPages}</Typography>
       <IconButton
         size="small"
         color="primary"
-        disabled={props.valueFromQueryString("page") >= totalPages.toString()}
+        disabled={page >= totalPages.toString()}
         onClick={() => {
-          let val = parseInt(props.valueFromQueryString("page"), 0) + 1;
+          let val = parseInt(page, 0) + 1;
           props.updateQueryString({ page: val });
         }}
         style={{ marginLeft: 10, marginRight: 10 }}
@@ -69,7 +70,7 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={props.valueFromQueryString("page") >= totalPages.toString()}
+        disabled={page >= totalPages.toString()}
         onClick={() => {
           props.updateQueryString({ page: totalPages });
         }}
