@@ -25,6 +25,7 @@ class ConnectedMenu extends Component {
 
     this.state = {
 
+      // For now, we default expand exandable items in the beginning.
       expandedMenuItems: dataForTheMenu.reduce((accum, current) => {
         if (current.children) {
           accum[current.id] = true;
@@ -38,14 +39,16 @@ class ConnectedMenu extends Component {
     this.renderMenu = this.renderMenu.bind(this)
   }
 
-  // We determine if user clicked this menu item from the URL.
   isMenuItemActive(item, location) {
 
-    // For now, if there is a query string, we check if this menu item is active in following way.
+
     if (location.search) {
       let queryStringParsed = queryString.parse(
         location.search
       );
+
+      // If category in query string and current item category match, as well
+      // as directClick is present in query string, we mark this menu item as active.
       return (
         queryStringParsed.directClick === "true" && item.name === queryStringParsed.category
       );
@@ -54,7 +57,6 @@ class ConnectedMenu extends Component {
     return item.url === location.pathname;
   }
 
-  // Receives menu data and renders menu items recursively.
   renderMenu(data) {
 
     return (<List
@@ -62,7 +64,6 @@ class ConnectedMenu extends Component {
       {data
         .map((x, i) => {
 
-          // If this item has no children put list item in a link.
           if (!x.children) {
             return (
               <NavLink
@@ -81,7 +82,6 @@ class ConnectedMenu extends Component {
                 <ListItem dense button>
                   <ListItemIcon>
                     <Icon
-
                     >{x.icon}}</Icon>
                   </ListItemIcon>
                   <ListItemText
