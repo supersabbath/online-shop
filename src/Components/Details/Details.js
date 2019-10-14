@@ -20,12 +20,12 @@ class ConnectedDetails extends Component {
       relatedItems: [],
       quantity: "1",
       item: null,
-      unfinishedTasks: 0
+      loading: false
     };
   }
 
   async fetchProductUsingID(id) {
-    this.setState(ps => ({ unfinishedTasks: ps.unfinishedTasks + 1 }));
+    this.setState({ loading: true });
 
     let item = await Api.getItemUsingID(id);
 
@@ -34,12 +34,10 @@ class ConnectedDetails extends Component {
     });
 
     if (this.isCompMounted) {
-      this.setState(ps => {
-        return {
-          item,
-          unfinishedTasks: ps.unfinishedTasks - 1,
-          relatedItems: relatedItems.data.filter(x => x.id !== item.id)
-        };
+      this.setState({
+        item,
+        relatedItems: relatedItems.data.filter(x => x.id !== item.id),
+        loading: false,
       });
     }
   }
@@ -64,7 +62,7 @@ class ConnectedDetails extends Component {
 
 
   render() {
-    if (this.state.unfinishedTasks !== 0) {
+    if (this.state.loading) {
       return <CircularProgress className="circular" />;
     }
 

@@ -6,7 +6,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { setLoggedInUser } from "../../Redux/Actions";
 
-import "./Login.css";
 
 class ConnectedLogin extends Component {
   state = {
@@ -23,7 +22,12 @@ class ConnectedLogin extends Component {
     }
 
     return (
-      <div className="login-container">
+      <div style={{
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
         <div
           style={{
             height: 200,

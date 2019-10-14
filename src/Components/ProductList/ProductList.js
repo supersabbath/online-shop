@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import Item from "../Item/Item";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import "./ProductList.css";
 import queryString from "query-string";
 import Api from "../../Api";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -32,7 +31,7 @@ class ProductList extends Component {
     super(props);
 
     this.state = {
-      unfinishedTasks: 0,
+      loading: false,
       openPriceDialog: false,
       totalItemsCount: null,
       items: []
@@ -56,17 +55,17 @@ class ProductList extends Component {
 
   async fetchData() {
 
-    this.setState(ps => ({ unfinishedTasks: ps.unfinishedTasks + 1 }));
+    this.setState({ loading: true });
 
     // Make simulated request to server to get items
     let qsAsObject = queryString.parse(this.props.location.search);
     let results = await Api.searchItems({ ...qsAsObject, usePriceFilter: qsAsObject.usePriceFilter === "true" });
 
-    this.setState(ps => ({
+    this.setState({
       items: results.data,
-      unfinishedTasks: ps.unfinishedTasks - 1,
+      loading: false,
       totalItemsCount: results.totalLength
-    }));
+    });
   }
 
   componentDidMount() {
@@ -120,17 +119,13 @@ class ProductList extends Component {
 
     return (
       <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100%"
-        }}
+
       >
         {/* Header */}
         <div style={{ padding: 10, display: "flex", alignItems: "center" }}>
           <div style={{ flex: 1, fontSize: 24 }}>
             <div>{pageTitle}</div>
-            {this.state.unfinishedTasks === 0 && (
+            {!this.state.loading && (
               <div style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
                 Total results found: {this.state.totalItemsCount}
               </div>)}
@@ -185,8 +180,8 @@ class ProductList extends Component {
           </Select>
         </div>
         {/* Here go the items */}
-        <div style={{ flex: 1 }}>
-          {this.state.unfinishedTasks !== 0 ? (
+        <div >
+          {this.state.loading ? (
             <CircularProgress className="circular" />
           ) : (
               this.state.items.map(item => {
@@ -196,7 +191,7 @@ class ProductList extends Component {
         </div>
         {/* Paging component */}
         {
-          this.state.unfinishedTasks === 0 && (
+          !this.state.loading && (
             <Paging
               itemsPerPage={itemsPerPage}
               page={page}

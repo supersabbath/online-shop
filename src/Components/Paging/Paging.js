@@ -4,24 +4,17 @@ import Right from "@material-ui/icons/ChevronRight";
 import First from "@material-ui/icons/FirstPage";
 import Last from "@material-ui/icons/LastPage";
 import IconButton from "@material-ui/core/IconButton";
-import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-const styles = theme => ({
-  input: {
-    textAlign: 'center'
-  }
-});
+
 
 
 
 
 const Paging = props => {
-  let itemsPerPage = props.itemsPerPage;
-  let page = props.page;
-
-  // Compute total number of pages.
-  let totalPages = Math.ceil(props.totalItemsCount / parseInt(itemsPerPage));
+  let itemsPerPage = parseInt(props.itemsPerPage);
+  let page = parseInt(props.page);
+  let totalPages = Math.ceil(props.totalItemsCount / itemsPerPage);
 
   return (
     <div
@@ -34,7 +27,7 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={page === "1"}
+        disabled={page === 1}
         onClick={() => {
           props.updateQueryString({ page: 1 });
         }}
@@ -45,10 +38,9 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={page === "1"}
+        disabled={page === 1}
         onClick={() => {
-          let val = parseInt(page, 0) - 1;
-          props.updateQueryString({ page: val });
+          props.updateQueryString({ page: page - 1 });
         }}
         style={{ marginRight: 10 }}
       >
@@ -60,8 +52,7 @@ const Paging = props => {
         color="primary"
         disabled={page >= totalPages.toString()}
         onClick={() => {
-          let val = parseInt(page, 0) + 1;
-          props.updateQueryString({ page: val });
+          props.updateQueryString({ page: page + 1 });
         }}
         style={{ marginLeft: 10, marginRight: 10 }}
       >
@@ -83,4 +74,4 @@ const Paging = props => {
   );
 };
 
-export default withStyles(styles)(Paging);
+export default Paging;
