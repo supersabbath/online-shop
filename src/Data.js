@@ -181,7 +181,7 @@ const dataForTheMenu = ((categories) => {
         return {
           name: x.name,
           id: 2 + i,
-          url: "/search/?category=" + x.name + "&directClick=true",
+          url: "/?category=" + x.name + "&directClick=true",
           icon: x.icon
         };
       })

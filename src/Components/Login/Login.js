@@ -39,7 +39,7 @@ class ConnectedLogin extends Component {
           <div
             style={{
               color: "#504F5A",
-              marginBottom: 50,
+              marginBottom: 40,
               fontSize: 24,
               textAlign: "center"
             }}
@@ -67,6 +67,7 @@ class ConnectedLogin extends Component {
             variant="outlined"
             color="primary"
             onClick={() => {
+
               // Authenticate the user using entered credentials.
               Auth.authenticate(this.state.userName, this.state.pass, user => {
                 // Authentication failed.

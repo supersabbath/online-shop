@@ -105,10 +105,9 @@ class ConnectedDetails extends Component {
               value={this.state.quantity}
               style={{ marginTop: 20, marginBottom: 20, width: 50 }}
               label="Quantity"
+              inputProps={{ min: "1", max: "10", step: "1" }}
               onChange={e => {
-                let val = parseInt(e.target.value);
-                if (val < 1 || val > 10) return;
-                this.setState({ quantity: val.toString() });
+                this.setState({ quantity: e.target.value });
               }}
             />
             <Button

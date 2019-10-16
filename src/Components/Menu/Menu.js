@@ -24,15 +24,7 @@ class ConnectedMenu extends Component {
     super(props);
 
     this.state = {
-
-      // For now, we default expand exandable items in the beginning.
-      expandedMenuItems: dataForTheMenu.reduce((accum, current) => {
-        if (current.children) {
-          accum[current.id] = true;
-        }
-        return accum;
-      }, {}),
-
+      expandedMenuItems: {},
       dataForTheMenu
     };
 

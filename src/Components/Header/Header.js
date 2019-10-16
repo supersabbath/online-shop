@@ -11,8 +11,7 @@ import { connect } from "react-redux";
 import {
   showCartDlg,
   toggleMenu,
-  setLoggedInUser,
-  setCheckedOutItems
+  logout
 } from "../../Redux/Actions";
 import cartImage from "../../Images/logo2.png";
 import Auth from "../../Auth";
@@ -70,8 +69,7 @@ class ConnectedHeader extends Component {
               src={cartImage}
               alt={"Logo"}
               style={{ marginLeft: 10 }}
-              width="64"
-              height="64"
+
             />
             <TextField
               label="Search products"
@@ -79,7 +77,7 @@ class ConnectedHeader extends Component {
               onChange={e => {
                 this.setState({ searchTerm: e.target.value });
               }}
-              style={{ marginLeft: 30, width: 250, paddingBottom: 14 }}
+              style={{ marginLeft: 30, width: 250, marginBottom: 15 }}
             />
 
             <Select
@@ -103,7 +101,7 @@ class ConnectedHeader extends Component {
               color="primary"
               onClick={() => {
                 this.props.history.push(
-                  "/search/?category=" +
+                  "/?category=" +
                   this.state.categoryFilterValue +
                   "&term=" +
                   this.state.searchTerm
@@ -164,8 +162,7 @@ class ConnectedHeader extends Component {
               <MenuItem
                 onClick={() => {
                   Auth.signout(() => {
-                    this.props.dispatch(setCheckedOutItems([]));
-                    this.props.dispatch(setLoggedInUser(null));
+                    this.props.dispatch(logout());
                     this.props.history.push("/");
                   });
                   this.setState({ anchorEl: null });

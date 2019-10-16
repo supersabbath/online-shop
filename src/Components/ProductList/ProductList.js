@@ -50,7 +50,7 @@ class ProductList extends Component {
   updateQueryString(newValues) {
     let currentQs = queryString.parse(this.props.location.search);
     let newQS = { ...currentQs, ...newValues };
-    this.props.history.push("/search/?" + this.convertObjectToQueryString(newQS));
+    this.props.history.push("/?" + this.convertObjectToQueryString(newQS));
   }
 
   async fetchData() {
@@ -117,11 +117,15 @@ class ProductList extends Component {
     let sortValue = qs.sortValue || "lh";
     let pageTitle = this.pageTitle();
 
+    if (this.state.loading)
+      return (
+        <CircularProgress className="circular" />
+      );
+
     return (
       <div
-
       >
-        {/* Header */}
+        {/* Product list header */}
         <div style={{ padding: 10, display: "flex", alignItems: "center" }}>
           <div style={{ flex: 1, fontSize: 24 }}>
             <div>{pageTitle}</div>
@@ -180,18 +184,14 @@ class ProductList extends Component {
           </Select>
         </div>
         {/* Here go the items */}
-        <div >
-          {this.state.loading ? (
-            <CircularProgress className="circular" />
-          ) : (
-              this.state.items.map(item => {
-                return <Item key={item.id} item={item} />;
-              })
-            )}
-        </div>
+        {
+          this.state.items.map(item => {
+            return <Item key={item.id} item={item} />;
+          })
+        }
         {/* Paging component */}
         {
-          !this.state.loading && (
+          !this.state.loading && !!this.state.totalItemsCount && (
             <Paging
               itemsPerPage={itemsPerPage}
               page={page}
