@@ -42,7 +42,7 @@ class ConnectedLogin extends Component {
             flexDirection: "column"
           }}
         >
-          <Avatar style={{ bacgroundColor: "", marginBottom: 10 }}>
+          <Avatar style={{ marginBottom: 10 }}>
             <LockOutlinedIcon />
           </Avatar>
           <div
