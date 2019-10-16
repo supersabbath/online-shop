@@ -5,6 +5,8 @@ import Auth from "../../Auth";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { setLoggedInUser } from "../../Redux/Actions";
+import Avatar from '@material-ui/core/Avatar';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 
 class ConnectedLogin extends Component {
@@ -26,26 +28,33 @@ class ConnectedLogin extends Component {
         height: "100%",
         display: "flex",
         justifyContent: "center",
+
         alignItems: "center",
       }}>
         <div
           style={{
-            height: 200,
+            height: 300,
             width: 200,
+            padding: 30,
             display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             flexDirection: "column"
           }}
         >
+          <Avatar style={{ bacgroundColor: "", marginBottom: 10 }}>
+            <LockOutlinedIcon />
+          </Avatar>
           <div
             style={{
-              color: "#504F5A",
-              marginBottom: 40,
+              marginBottom: 20,
               fontSize: 24,
               textAlign: "center"
             }}
           >
             {" "}
-            Log in{" "}
+            Log in
+            {" "}
           </div>
           <TextField
             value={this.state.userName}
@@ -63,20 +72,19 @@ class ConnectedLogin extends Component {
             }}
           />
           <Button
-            style={{ marginTop: 10 }}
+            style={{ marginTop: 20, width: 200 }}
             variant="outlined"
             color="primary"
             onClick={() => {
 
-              // Authenticate the user using entered credentials.
+              // Simulate authentication call
               Auth.authenticate(this.state.userName, this.state.pass, user => {
-                // Authentication failed.
+
                 if (!user) {
                   this.setState({ wrongCred: true });
                   return;
                 }
 
-                // If we get here, authentication was success.
                 this.props.dispatch(setLoggedInUser({ name: user.name }));
                 this.setState(() => ({
                   redirectToReferrer: true

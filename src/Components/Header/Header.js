@@ -157,7 +157,7 @@ class ConnectedHeader extends Component {
                   this.props.history.push("/order");
                 }}
               >
-                Pending Order
+                Checkout page
               </MenuItem>
               <MenuItem
                 onClick={() => {

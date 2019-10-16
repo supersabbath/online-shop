@@ -113,7 +113,7 @@ class ConnectedDetails extends Component {
             <Button
               style={{ width: 200, marginTop: 5 }}
               color="primary"
-              variant="contained"
+              variant="outlined"
               onClick={() => {
                 this.props.dispatch(
                   addItemInCart({

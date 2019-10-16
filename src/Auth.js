@@ -1,4 +1,4 @@
-// Mock of an authentication service
+// Simulate authentication service
 const Auth = {
   _isAuthenticated: false,
 
