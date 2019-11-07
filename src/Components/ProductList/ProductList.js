@@ -43,7 +43,6 @@ class ProductList extends Component {
 
     this.setState({ loading: true });
 
-    // Make simulated request to server to get items
     let qsAsObject = queryString.parse(this.props.location.search);
     let results = await Api.searchItems({ ...qsAsObject, usePriceFilter: qsAsObject.usePriceFilter === "true" });
 
@@ -79,13 +78,12 @@ class ProductList extends Component {
     this.updateQueryString({ sortValue: e.value });
   };
 
-  // Determine page title.
-  pageTitle() {
+  getPageTitle() {
     let pageTitle = "Search results";
     let category = queryString.parse(this.props.location.search).category;
     let directClick = queryString.parse(this.props.location.search).directClick === "true";
 
-    if (category === undefined) {
+    if (!category) {
       pageTitle = "Popular products";
     } else if (directClick) {
       pageTitle = category;
@@ -101,12 +99,13 @@ class ProductList extends Component {
     let itemsPerPage = qs.itemsPerPage || 10;
     let page = qs.page || 1;
     let sortValue = qs.sortValue || "lh";
-    let pageTitle = this.pageTitle();
+    let pageTitle = this.getPageTitle();
 
-    if (this.state.loading)
+    if (this.state.loading) {
       return (
         <CircularProgress className="circular" />
       );
+    }
 
     return (
       <div
