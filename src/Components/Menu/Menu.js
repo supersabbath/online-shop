@@ -24,7 +24,9 @@ class ConnectedMenu extends Component {
     super(props);
 
     this.state = {
-      expandedMenuItems: {},
+      expandedMenuItems: {
+        1: true
+      },
       dataForTheMenu
     };
 

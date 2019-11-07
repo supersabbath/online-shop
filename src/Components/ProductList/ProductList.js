@@ -12,14 +12,6 @@ import Paging from "../Paging/Paging";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-const sortOptions = [
-  <MenuItem key={"lh"} value={"lh"}>
-    Sort by price: low to high
-  </MenuItem>,
-  <MenuItem key={"hl"} value={"hl"}>
-    Sort by price: high to low
-  </MenuItem>
-];
 
 // This component is responsible for searching products.
 // It performs the search based on parameters in the query string
@@ -40,17 +32,11 @@ class ProductList extends Component {
     this.updateQueryString = this.updateQueryString.bind(this);
   }
 
-  convertObjectToQueryString(params) {
-    return Object.entries(params).map(([k, v]) => {
-      return encodeURIComponent(k) + "=" + encodeURIComponent(v !== undefined ? v : "")
-    }).join("&");
-  }
-
 
   updateQueryString(newValues) {
     let currentQs = queryString.parse(this.props.location.search);
     let newQS = { ...currentQs, ...newValues };
-    this.props.history.push("/?" + this.convertObjectToQueryString(newQS));
+    this.props.history.push("/?" + queryString.stringify(newQS));
   }
 
   async fetchData() {
@@ -110,10 +96,10 @@ class ProductList extends Component {
   render() {
     let qs = queryString.parse(this.props.location.search);
     let usePriceFilter = qs.usePriceFilter === "true";
-    let minPrice = qs.minPrice || "0";
-    let maxPrice = qs.maxPrice || "1000";
-    let itemsPerPage = qs.itemsPerPage || "10";
-    let page = qs.page || "1";
+    let minPrice = qs.minPrice || 0;
+    let maxPrice = qs.maxPrice || 1000;
+    let itemsPerPage = qs.itemsPerPage || 10;
+    let page = qs.page || 1;
     let sortValue = qs.sortValue || "lh";
     let pageTitle = this.pageTitle();
 
@@ -143,7 +129,7 @@ class ProductList extends Component {
                 checked={usePriceFilter}
                 onChange={e => {
                   this.updateQueryString(
-                    { usePriceFilter: e.target.checked, page: "1" }
+                    { usePriceFilter: e.target.checked, page: 1 }
                   );
                 }}
               />
@@ -180,7 +166,13 @@ class ProductList extends Component {
               this.updateQueryString({ sortValue: e.target.value });
             }}
           >
-            {sortOptions}
+            <MenuItem value={"lh"}>
+              Sort by price: low to high
+               </MenuItem>
+            <MenuItem value={"hl"}>
+              Sort by price: high to low
+              </MenuItem>
+
           </Select>
         </div>
         {/* Here go the items */}
@@ -207,7 +199,7 @@ class ProductList extends Component {
           max={maxPrice}
           onSave={(min, max) => {
             this.setState({ openPriceDialog: false });
-            this.updateQueryString({ minPrice: min, maxPrice: max, page: "1" });
+            this.updateQueryString({ minPrice: min, maxPrice: max, page: 1 });
           }}
           onClose={() =>
             this.setState({

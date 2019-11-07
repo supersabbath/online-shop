@@ -51,13 +51,14 @@ class PriceDialog extends Component {
                 placeholder="Min"
                 label="Min"
                 onChange={e => {
-                  let val = e.target.value;
+                  let val = parseInt(e.target.value, 10);
                   if (
-                    val.length === 0 ||
-                    parseInt(val, 10) < 0 ||
-                    parseInt(val, 10) > 100000
-                  )
+                    Number.isNaN(val) ||
+                    val < 0 ||
+                    val > 100000
+                  ) {
                     return;
+                  }
                   this.setState({
                     min: val
                   });
@@ -70,13 +71,15 @@ class PriceDialog extends Component {
                 placeholder="Max"
                 label="Max"
                 onChange={e => {
-                  let val = e.target.value;
+                  let val = parseInt(e.target.value, 10);
+
                   if (
-                    val.length === 0 ||
-                    parseInt(val, 10) < 0 ||
-                    parseInt(val, 10) > 100000
-                  )
+                    Number.isNaN(val) ||
+                    val < 0 ||
+                    val > 100000
+                  ) {
                     return;
+                  }
                   this.setState({
                     max: val
                   });

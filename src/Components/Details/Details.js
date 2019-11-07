@@ -18,7 +18,7 @@ class ConnectedDetails extends Component {
 
     this.state = {
       relatedItems: [],
-      quantity: "1",
+      quantity: 1,
       item: null,
       loading: false
     };
@@ -69,7 +69,6 @@ class ConnectedDetails extends Component {
     if (!this.state.item) {
       return null;
     }
-
     return (
       <div style={{ padding: 10 }}>
         <div
@@ -105,9 +104,9 @@ class ConnectedDetails extends Component {
               value={this.state.quantity}
               style={{ marginTop: 20, marginBottom: 20, width: 50 }}
               label="Quantity"
-              inputProps={{ min: "1", max: "10", step: "1" }}
+              inputProps={{ min: 1, max: 10, step: 1 }}
               onChange={e => {
-                this.setState({ quantity: e.target.value });
+                this.setState({ quantity: parseInt(e.target.value) });
               }}
             />
             <Button
@@ -118,7 +117,7 @@ class ConnectedDetails extends Component {
                 this.props.dispatch(
                   addItemInCart({
                     ...this.state.item,
-                    quantity: parseInt(this.state.quantity)
+                    quantity: this.state.quantity
                   })
                 );
               }}
