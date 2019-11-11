@@ -1,17 +1,10 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
 import Item from "../Item/Item";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import queryString from "query-string";
 import Api from "../../Api";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Tooltip from "@material-ui/core/Tooltip";
-import PriceDialog from "../PriceDialog/PriceDialog";
 import Paging from "../Paging/Paging";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-
+import ProductsHeader from "../ProductsHeader/ProductsHeader"
 
 // This component is responsible for searching products.
 // It performs the search based on parameters in the query string
@@ -24,7 +17,6 @@ class ProductList extends Component {
 
     this.state = {
       loading: false,
-      openPriceDialog: false,
       totalItemsCount: null,
       items: []
     };
@@ -74,9 +66,7 @@ class ProductList extends Component {
     }
   }
 
-  handleSortChange = e => {
-    this.updateQueryString({ sortValue: e.value });
-  };
+
 
   getPageTitle() {
     let pageTitle = "Search results";
@@ -93,13 +83,8 @@ class ProductList extends Component {
 
   render() {
     let qs = queryString.parse(this.props.location.search);
-    let usePriceFilter = qs.usePriceFilter === "true";
-    let minPrice = qs.minPrice || 0;
-    let maxPrice = qs.maxPrice || 1000;
     let itemsPerPage = qs.itemsPerPage || 10;
     let page = qs.page || 1;
-    let sortValue = qs.sortValue || "lh";
-    let pageTitle = this.getPageTitle();
 
     if (this.state.loading) {
       return (
@@ -111,69 +96,13 @@ class ProductList extends Component {
       <div
       >
         {/* Product list header */}
-        <div style={{ padding: 10, display: "flex", alignItems: "center" }}>
-          <div style={{ flex: 1, fontSize: 24 }}>
-            <div>{pageTitle}</div>
-            {!this.state.loading && (
-              <div style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
-                Total results found: {this.state.totalItemsCount}
-              </div>)}
-          </div>
+        <ProductsHeader
+          loading={this.state.loading}
+          pageTitle={this.getPageTitle()}
+          updateQueryString={this.updateQueryString}
+          queryString={qs}
+          totalItemsCount={this.state.totalItemsCount} />
 
-          <FormControlLabel
-            style={{ marginBottom: 5 }}
-            control={
-              <Checkbox
-                color="primary"
-                checked={usePriceFilter}
-                onChange={e => {
-                  this.updateQueryString(
-                    { usePriceFilter: e.target.checked, page: 1 }
-                  );
-                }}
-              />
-            }
-            label="Filter by price"
-          />
-          {usePriceFilter && (
-            < Tooltip title="Click to change range" disableFocusListener>
-              <Button
-                variant="outlined"
-                style={{ marginRight: 20 }}
-                onClick={() => {
-                  this.setState({
-                    openPriceDialog: true
-                  });
-                }}
-              >
-                {minPrice +
-                  "$ - " +
-                  maxPrice +
-                  "$"}
-              </Button>
-            </Tooltip>
-          )}
-          <Select
-            style={{ maxWidth: 400, marginBottom: 10 }}
-            value={sortValue}
-            MenuProps={{
-              style: {
-                maxHeight: 500
-              }
-            }}
-            onChange={e => {
-              this.updateQueryString({ sortValue: e.target.value });
-            }}
-          >
-            <MenuItem value={"lh"}>
-              Sort by price: low to high
-               </MenuItem>
-            <MenuItem value={"hl"}>
-              Sort by price: high to low
-              </MenuItem>
-
-          </Select>
-        </div>
         {/* Here go the items */}
         {
           this.state.items.map(item => {
@@ -191,21 +120,7 @@ class ProductList extends Component {
             />
           )
         }
-        {/* This is dialog which opens up for setting price filter */}
-        <PriceDialog
-          open={this.state.openPriceDialog}
-          min={minPrice}
-          max={maxPrice}
-          onSave={(min, max) => {
-            this.setState({ openPriceDialog: false });
-            this.updateQueryString({ minPrice: min, maxPrice: max, page: 1 });
-          }}
-          onClose={() =>
-            this.setState({
-              openPriceDialog: false
-            })
-          }
-        />
+
       </div >
     );
   }
