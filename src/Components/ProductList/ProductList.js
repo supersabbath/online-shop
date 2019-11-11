@@ -6,11 +6,10 @@ import Api from "../../Api";
 import Paging from "../Paging/Paging";
 import ProductsHeader from "../ProductsHeader/ProductsHeader"
 
+
 // This component is responsible for searching products.
-// It performs the search based on parameters in the query string
-// (because of this much state of this component actually lives in the URL).
+// It determines which products to search from the query string.
 // The URL is checked on first mount and when URL changes.
-// We use query strings so that user could share a link to his/her search results for example.
 class ProductList extends Component {
   constructor(props) {
     super(props);
