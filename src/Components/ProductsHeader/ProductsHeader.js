@@ -12,10 +12,6 @@ class ProductsHeader extends Component {
         openPriceDialog: false,
     };
 
-    handleSortChange = e => {
-        this.updateQueryString({ sortValue: e.value });
-    };
-
     render() {
         let { loading, totalItemsCount, pageTitle } = this.props;
         let usePriceFilter = this.props.queryString.usePriceFilter === "true";
