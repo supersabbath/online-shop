@@ -92,8 +92,8 @@ class ProductList extends Component {
     }
 
     return (
-      <div
-      >
+      <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+
         {/* Product list header */}
         <ProductsHeader
           loading={this.state.loading}
@@ -103,11 +103,12 @@ class ProductList extends Component {
           totalItemsCount={this.state.totalItemsCount} />
 
         {/* Here go the items */}
-        {
-          this.state.items.map(item => {
+        <div style={{ flex: 1 }}>
+          {this.state.items.map(item => {
             return <Item key={item.id} item={item} />;
-          })
-        }
+          })}
+        </div>
+
         {/* Paging component */}
         {
           !this.state.loading && !!this.state.totalItemsCount && (
