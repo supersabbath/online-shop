@@ -6,24 +6,42 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import { withRouter } from "react-router-dom";
+import queryString from "query-string";
 
 class ProductsHeader extends Component {
     state = {
         openPriceDialog: false,
     };
 
+
+    getPageTitle() {
+        let pageTitle = "Search results";
+        let category = queryString.parse(this.props.location.search).category;
+        let directClick = queryString.parse(this.props.location.search).directClick === "true";
+
+        if (!category) {
+            pageTitle = "Popular products";
+        } else if (directClick) {
+            pageTitle = category;
+        }
+        return pageTitle;
+    }
+
     render() {
-        let { loading, totalItemsCount, pageTitle } = this.props;
-        let usePriceFilter = this.props.queryString.usePriceFilter === "true";
-        let minPrice = this.props.queryString.minPrice || 0;
-        let maxPrice = this.props.queryString.maxPrice || 1000;
-        let sortValue = this.props.queryString.sortValue || "lh";
+        let { loading,updateQueryString, totalItemsCount } = this.props;
+
+        let qs = queryString.parse(this.props.location.search);
+        let usePriceFilter = qs.usePriceFilter === "true";
+        let minPrice = qs.minPrice || 0;
+        let maxPrice = qs.maxPrice || 1000;
+        let sortValue = qs.sortValue || "lh";
 
         return (
             <div>
                 <div style={{ padding: 10, display: "flex", alignItems: "center" }}>
                     <div style={{ flex: 1, fontSize: 24 }}>
-                        <div>{pageTitle}</div>
+                        <div>{this.getPageTitle()}</div>
                         {!loading && (
                             <div style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
                                 Total results found: {totalItemsCount}
@@ -36,7 +54,7 @@ class ProductsHeader extends Component {
                                 color="primary"
                                 checked={usePriceFilter}
                                 onChange={e => {
-                                    this.props.updateQueryString(
+                                    updateQueryString(
                                         { usePriceFilter: e.target.checked, page: 1 }
                                     );
                                 }}
@@ -65,7 +83,7 @@ class ProductsHeader extends Component {
                     <Select
                         value={sortValue}
                         onChange={e => {
-                            this.props.updateQueryString({ sortValue: e.target.value });
+                            updateQueryString({ sortValue: e.target.value });
                         }}
                     >
                         <MenuItem value={"lh"}>
@@ -85,7 +103,7 @@ class ProductsHeader extends Component {
                     max={maxPrice}
                     onSave={(min, max) => {
                         this.setState({ openPriceDialog: false });
-                        this.props.updateQueryString({ minPrice: min, maxPrice: max, page: 1 });
+                        updateQueryString({ minPrice: min, maxPrice: max, page: 1 });
                     }}
                     onClose={() =>
                         this.setState({
@@ -98,4 +116,5 @@ class ProductsHeader extends Component {
     }
 }
 
-export default ProductsHeader;
+
+export default withRouter(ProductsHeader);

@@ -67,18 +67,6 @@ class ProductList extends Component {
 
 
 
-  getPageTitle() {
-    let pageTitle = "Search results";
-    let category = queryString.parse(this.props.location.search).category;
-    let directClick = queryString.parse(this.props.location.search).directClick === "true";
-
-    if (!category) {
-      pageTitle = "Popular products";
-    } else if (directClick) {
-      pageTitle = category;
-    }
-    return pageTitle;
-  }
 
   render() {
     let qs = queryString.parse(this.props.location.search);
@@ -97,9 +85,7 @@ class ProductList extends Component {
         {/* Product list header */}
         <ProductsHeader
           loading={this.state.loading}
-          pageTitle={this.getPageTitle()}
           updateQueryString={this.updateQueryString}
-          queryString={qs}
           totalItemsCount={this.state.totalItemsCount} />
 
         {/* Here go the items */}
