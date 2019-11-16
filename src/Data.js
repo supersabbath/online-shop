@@ -170,9 +170,8 @@ const categories = [
   }
 ];
 
-// Generate data for rendering menu on the left.
-const dataForTheMenu = ((categories) => {
-  let items = [
+// Data for rendering menu.
+const dataForTheMenu = [
     { name: "Home page", url: "/", icon: "home", id: 0 },
     {
       name: "Product categories",
@@ -189,7 +188,5 @@ const dataForTheMenu = ((categories) => {
 
   ];
 
-  return items;
-})(categories)
 
 export { sampleProducts, categories, dataForTheMenu };
