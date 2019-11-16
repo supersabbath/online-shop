@@ -69,10 +69,6 @@ class ProductList extends Component {
 
 
   render() {
-    let qs = queryString.parse(this.props.location.search);
-    let itemsPerPage = qs.itemsPerPage || 10;
-    let page = qs.page || 1;
-
     if (this.state.loading) {
       return (
         <CircularProgress className="circular" />
@@ -81,8 +77,6 @@ class ProductList extends Component {
 
     return (
       <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-
-        {/* Product list header */}
         <ProductsHeader
           updateQueryString={this.updateQueryString}
           totalItemsCount={this.state.totalItemsCount} />
@@ -94,18 +88,10 @@ class ProductList extends Component {
           })}
         </div>
 
-        {/* Paging component */}
-        {
-          !!this.state.totalItemsCount && (
-            <Paging
-              itemsPerPage={itemsPerPage}
-              page={page}
-              updateQueryString={this.updateQueryString}
-              totalItemsCount={this.state.totalItemsCount}
-            />
-          )
-        }
-
+        <Paging
+          updateQueryString={this.updateQueryString}
+          totalItemsCount={this.state.totalItemsCount}
+        />
       </div >
     );
   }

@@ -30,8 +30,8 @@ class ProductsHeader extends Component {
 
     render() {
         let { updateQueryString, totalItemsCount } = this.props;
-
         let qs = queryString.parse(this.props.location.search);
+        
         let usePriceFilter = qs.usePriceFilter === "true";
         let minPrice = qs.minPrice || 0;
         let maxPrice = qs.maxPrice || 1000;
