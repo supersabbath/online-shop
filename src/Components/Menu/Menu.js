@@ -24,8 +24,9 @@ class ConnectedMenu extends Component {
     super(props);
 
     this.state = {
+      // initially item with id 1 is expanded
       expandedMenuItems: {
-        1: true // id of item which is initially expanded
+        1: true  
       },
       dataForTheMenu
     };
