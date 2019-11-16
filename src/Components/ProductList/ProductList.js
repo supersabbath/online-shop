@@ -84,7 +84,6 @@ class ProductList extends Component {
 
         {/* Product list header */}
         <ProductsHeader
-          loading={this.state.loading}
           updateQueryString={this.updateQueryString}
           totalItemsCount={this.state.totalItemsCount} />
 
@@ -97,7 +96,7 @@ class ProductList extends Component {
 
         {/* Paging component */}
         {
-          !this.state.loading && !!this.state.totalItemsCount && (
+          !!this.state.totalItemsCount && (
             <Paging
               itemsPerPage={itemsPerPage}
               page={page}
