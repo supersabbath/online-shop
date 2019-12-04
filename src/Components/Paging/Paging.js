@@ -6,15 +6,13 @@ import Last from "@material-ui/icons/LastPage";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from "react-router-dom";
-import queryString from "query-string";
 
 
 const Paging = props => {
 
-  let qs = queryString.parse(props.location.search);
-
-  let itemsPerPage = parseInt(qs.itemsPerPage) || 10;
-  let page = parseInt(qs.page) || 1;
+  let { parsedQS } = props;
+  let itemsPerPage = parseInt(parsedQS.itemsPerPage) || 10;
+  let page = parseInt(parsedQS.page) || 1;
   let totalPages = Math.ceil(props.totalItemsCount / itemsPerPage);
 
   if (!props.totalItemsCount) return null;

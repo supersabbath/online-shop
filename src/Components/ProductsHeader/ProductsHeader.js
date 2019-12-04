@@ -10,40 +10,41 @@ import { withRouter } from "react-router-dom";
 import queryString from "query-string";
 
 class ProductsHeader extends Component {
+
     state = {
         openPriceDialog: false,
     };
 
 
-    getPageTitle() {
+    getTitle() {
         let pageTitle = "Search results";
-        let category = queryString.parse(this.props.location.search).category;
-        let directClick = queryString.parse(this.props.location.search).directClick === "true";
+        let categoryName = queryString.parse(this.props.location.search).category;
+        let isDirectClick = queryString.parse(this.props.location.search).directClick === "true";
 
-        if (!category) {
+        if (!categoryName) {
             pageTitle = "Popular products";
-        } else if (directClick) {
-            pageTitle = category;
+        } else if (isDirectClick) {
+            // If we get here user clicked a category from menu item,
+            // hence show the category name as title.
+            pageTitle = categoryName;
         }
         return pageTitle;
     }
 
     render() {
-        let { updateQueryString, totalItemsCount } = this.props;
-        let qs = queryString.parse(this.props.location.search);
-        
-        let usePriceFilter = qs.usePriceFilter === "true";
-        let minPrice = qs.minPrice || 0;
-        let maxPrice = qs.maxPrice || 1000;
-        let sortValue = qs.sortValue || "lh";
+        let { parsedQS, totalItemsCount, updateQueryString } = this.props;
+        let usePriceFilter = parsedQS.usePriceFilter === "true";
+        let minPrice = parsedQS.minPrice || 0;
+        let maxPrice = parsedQS.maxPrice || 1000;
+        let sortValue = parsedQS.sortValue || "lh";
 
         return (
             <div>
                 <div style={{ padding: 10, display: "flex", alignItems: "center" }}>
                     <div style={{ flex: 1, fontSize: 24 }}>
-                        <div>{this.getPageTitle()}</div>
+                        <div>{this.getTitle()}</div>
                         <div style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
-                           Total results found: {totalItemsCount}
+                            Total results found: {totalItemsCount}
                         </div>
                     </div>
 

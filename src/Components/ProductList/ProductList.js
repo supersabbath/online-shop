@@ -19,15 +19,8 @@ class ProductList extends Component {
       totalItemsCount: null,
       items: []
     };
-
     this.updateQueryString = this.updateQueryString.bind(this);
-  }
 
-
-  updateQueryString(newValues) {
-    let currentQs = queryString.parse(this.props.location.search);
-    let newQS = { ...currentQs, ...newValues };
-    this.props.history.push("/?" + queryString.stringify(newQS));
   }
 
   async fetchData() {
@@ -48,6 +41,11 @@ class ProductList extends Component {
     this.fetchData();
   }
 
+  updateQueryString(newValues) {
+    let currentQS = queryString.parse(this.props.location.search);
+    let newQS = { ...currentQS, ...newValues };
+    this.props.history.push("/?" + queryString.stringify(newQS));
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
 
@@ -66,6 +64,8 @@ class ProductList extends Component {
   }
 
   render() {
+    let parsedQS = queryString.parse(this.props.location.search);
+
     if (this.state.loading) {
       return (
         <CircularProgress className="circular" />
@@ -75,10 +75,10 @@ class ProductList extends Component {
     return (
       <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <ProductsHeader
+          parsedQS={parsedQS}
           updateQueryString={this.updateQueryString}
           totalItemsCount={this.state.totalItemsCount} />
 
-        {/* Here go the items */}
         <div style={{ flex: 1 }}>
           {this.state.items.map(item => {
             return <Item key={item.id} item={item} />;
@@ -86,6 +86,7 @@ class ProductList extends Component {
         </div>
 
         <Paging
+          parsedQS={parsedQS}
           updateQueryString={this.updateQueryString}
           totalItemsCount={this.state.totalItemsCount}
         />
