@@ -19,13 +19,11 @@ class ProductsHeader extends Component {
     getTitle() {
         let pageTitle = "Search results";
         let categoryName = queryString.parse(this.props.location.search).category;
-        let isDirectClick = queryString.parse(this.props.location.search).directClick === "true";
+        let isMenuItemClicked = queryString.parse(this.props.location.search).menuItemClicked === "true";
 
         if (!categoryName) {
             pageTitle = "Popular products";
-        } else if (isDirectClick) {
-            // If we get here user clicked a category from menu item,
-            // hence show the category name as title.
+        } else if (isMenuItemClicked) {
             pageTitle = categoryName;
         }
         return pageTitle;

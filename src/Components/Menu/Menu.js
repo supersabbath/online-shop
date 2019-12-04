@@ -26,7 +26,7 @@ class ConnectedMenu extends Component {
     this.state = {
       // initially item with id 1 is expanded
       expandedMenuItems: {
-        1: true  
+        1: true
       },
       dataForTheMenu
     };
@@ -34,21 +34,24 @@ class ConnectedMenu extends Component {
     this.renderMenu = this.renderMenu.bind(this)
   }
 
+  // This method determines from URL whether to highlight a menu item or not
   isMenuItemActive(item, location) {
 
-
-    if (location.search) {
+    // If we are on the main page, and there is a query
+    // string it could be that one of product category menu items 
+    // was clicked, check if that's the case, and if it is current item that was clicked.
+    if (location.pathname === "/" && location.search) {
       let queryStringParsed = queryString.parse(
         location.search
       );
 
-      // If category in query string and current item category match, as well
-      // as directClick is present in query string, we mark this menu item as active.
       return (
-        queryStringParsed.directClick === "true" && item.name === queryStringParsed.category
+        queryStringParsed.menuItemClicked === "true" && item.name === queryStringParsed.category
       );
     }
 
+    // In other cases, for now, we just compare menu item url and current path
+    // to determine if menu item was clicked.
     return item.url === location.pathname;
   }
 

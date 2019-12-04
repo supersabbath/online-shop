@@ -172,21 +172,21 @@ const categories = [
 
 // Data for rendering menu.
 const dataForTheMenu = [
-    { name: "Home page", url: "/", icon: "home", id: 0 },
-    {
-      name: "Product categories",
-      id: 1,
-      children: categories.map((x, i) => {
-        return {
-          name: x.name,
-          id: 2 + i,
-          url: "/?category=" + x.name + "&directClick=true",
-          icon: x.icon
-        };
-      })
-    },
+  { name: "Home page", url: "/", icon: "home", id: 0 },
+  {
+    name: "Product categories",
+    id: 1,
+    children: categories.map((x, i) => {
+      return {
+        name: x.name,
+        id: 2 + i,
+        url: "/?category=" + x.name + "&menuItemClicked=true",
+        icon: x.icon
+      };
+    })
+  },
 
-  ];
+];
 
 
 export { sampleProducts, categories, dataForTheMenu };
