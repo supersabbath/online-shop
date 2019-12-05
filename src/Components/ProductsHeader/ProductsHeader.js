@@ -19,11 +19,11 @@ class ProductsHeader extends Component {
     getTitle() {
         let pageTitle = "Search results";
         let categoryName = queryString.parse(this.props.location.search).category;
-        let isMenuItemClicked = queryString.parse(this.props.location.search).menuItemClicked === "true";
+        let itemCategoryClicked = queryString.parse(this.props.location.search).itemCategoryClicked === "true";
 
         if (!categoryName) {
             pageTitle = "Popular products";
-        } else if (isMenuItemClicked) {
+        } else if (itemCategoryClicked) {
             pageTitle = categoryName;
         }
         return pageTitle;
