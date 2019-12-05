@@ -46,7 +46,7 @@ class ConnectedMenu extends Component {
       );
 
       return (
-        queryStringParsed.menuItemClicked === "true" && item.name === queryStringParsed.category
+        queryStringParsed.itemCategoryClicked === "true" && item.name === queryStringParsed.category
       );
     }
 
