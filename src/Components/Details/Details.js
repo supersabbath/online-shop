@@ -75,7 +75,8 @@ class ConnectedDetails extends Component {
           style={{
             marginBottom: 20,
             marginTop: 10,
-            fontSize: 24
+            color: "gray",
+            fontSize: 20
           }}
         >
           {this.state.item.name}
@@ -127,12 +128,13 @@ class ConnectedDetails extends Component {
           </div>
         </div>
 
-        {/* Item description */}
+        {/* Product description */}
         <div
           style={{
             marginTop: 30,
             marginBottom: 20,
-            fontSize: 24
+            color: "gray",
+            fontSize: 20
           }}
         >
           Product Description
@@ -153,7 +155,8 @@ class ConnectedDetails extends Component {
           style={{
             marginTop: 30,
             marginBottom: 10,
-            fontSize: 24
+            color: "gray",
+            fontSize: 20
           }}
         >
           Related Items
