@@ -24,6 +24,7 @@ class ConnectedDetails extends Component {
     };
   }
 
+  // Gets product and its related items based on product ID.
   async fetchProductUsingID(id) {
     this.setState({ loading: true });
 
@@ -33,9 +34,11 @@ class ConnectedDetails extends Component {
       category: item.category,
     });
 
+    // Make sure this component is still mounted before we set state..
     if (this.isCompMounted) {
       this.setState({
         item,
+        quantity:1,
         relatedItems: relatedItems.data.filter(x => x.id !== item.id),
         loading: false,
       });
@@ -43,10 +46,12 @@ class ConnectedDetails extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    
+    // If ID of product changed in URL, refetch details for that product
     if (this.props.match.params.id !== prevProps.match.params.id) {
       this.fetchProductUsingID(this.props.match.params.id);
-
     }
+    
   }
 
 
