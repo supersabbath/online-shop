@@ -152,7 +152,7 @@ class ConnectedDetails extends Component {
             overflow: "auto"
           }}
         >
-          {this.state.item.description ? this.state.item.description : <div style={{ color: "gray" }}>Not available</div>}
+          {this.state.item.description ? this.state.item.description :  "Not available" }
         </div>
 
         {/* Relateditems */}
