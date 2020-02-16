@@ -9,10 +9,6 @@ Online shop prototype (front end) implemented using React, Redux, React router, 
 - Search products using keyword and/or category
 - Ability to filter and sort products by price
 - Users can add products to shopping cart 
-
-# Demo
-
-You can play with the code [online](https://codesandbox.io/s/github/giorgi-m/online-shop).
  
 # How to use
 
