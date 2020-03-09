@@ -7,7 +7,6 @@ import Select from "@material-ui/core/Select";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { withRouter } from "react-router-dom";
-import queryString from "query-string";
 
 class ProductsHeader extends Component {
 
@@ -30,10 +29,10 @@ class ProductsHeader extends Component {
                     <div style={{ flex: 1, fontSize: 24 }}>
                         <div>{category ? "Search results" : "Popular Products"}</div>
                         <span style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
-                            {totalItemsCount} results
+                            {totalItemsCount + " results " + (keyword ? "for " : "")}
                         </span>
                         {keyword && <span style={{ fontWeight: "bold", fontSize: 12, color: "gray", marginTop: 5 }}>
-                            {"  "} for: {keyword}
+                            {keyword}
                         </span>}
                     </div>
 
