@@ -7,10 +7,9 @@ import Paging from "../Paging/Paging";
 import ProductsHeader from "../ProductsHeader/ProductsHeader"
 
 
-// A lot of the state of this components lives in the URL (query string):
-// for instance whether to use price filter, which products
-// to search for etc. The URL is checked initially and on subsequent changes.
-// Child components of this component also use the query string.
+// This component relies on query string to check which products to search for and when.
+// The URL is checked initially and on updates.
+// Child components of this component also rely on the query string.
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -28,12 +27,12 @@ class ProductList extends Component {
 
     this.setState({ loading: true });
 
+    // Parse the query string
     let qsAsObject = queryString.parse(this.props.location.search);
-    
-    // Make the request to get items
+
+    // Make request
     let results = await Api.searchItems({ ...qsAsObject, usePriceFilter: qsAsObject.usePriceFilter === "true" });
 
-    // Store results in state
     this.setState({
       items: results.data,
       loading: false,
@@ -47,10 +46,7 @@ class ProductList extends Component {
 
   updateQueryString(newValues) {
     let currentQS = queryString.parse(this.props.location.search);
-    
-    // Create new query string by merging with old one
     let newQS = { ...currentQS, ...newValues };
-    
     this.props.history.push("/?" + queryString.stringify(newQS));
   }
 
@@ -71,10 +67,8 @@ class ProductList extends Component {
   }
 
   render() {
-    // Obtain query string as an object
     let parsedQS = queryString.parse(this.props.location.search);
 
-    // Check if products are loading ...
     if (this.state.loading) {
       return (
         <CircularProgress className="circular" />
