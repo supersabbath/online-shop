@@ -180,7 +180,7 @@ const dataForTheMenu = [
       return {
         name: x.name,
         id: 2 + i,
-        url: "/?category=" + x.name + "&itemCategoryClicked=true",
+        url: "/?category=" + x.name,
         icon: x.icon
       };
     })

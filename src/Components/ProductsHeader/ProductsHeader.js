@@ -17,15 +17,12 @@ class ProductsHeader extends Component {
 
 
     getTitle() {
-        let pageTitle = "Search results";
-        let categoryName = queryString.parse(this.props.location.search).category;
-        let itemCategoryClicked = queryString.parse(this.props.location.search).itemCategoryClicked === "true";
+        let pageTitle = queryString.parse(this.props.location.search).category;
 
-        if (!categoryName) {
+        if (!pageTitle) {
             pageTitle = "Popular products";
-        } else if (itemCategoryClicked) {
-            pageTitle = categoryName;
         }
+
         return pageTitle;
     }
 
@@ -35,15 +32,19 @@ class ProductsHeader extends Component {
         let minPrice = parsedQS.minPrice || 0;
         let maxPrice = parsedQS.maxPrice || 1000;
         let sortValue = parsedQS.sortValue || "lh";
+        let keyword = parsedQS.term;
 
         return (
             <div>
                 <div style={{ padding: 10, display: "flex", alignItems: "center" }}>
                     <div style={{ flex: 1, fontSize: 24 }}>
                         <div>{this.getTitle()}</div>
-                        <div style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
+                        <span style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
                             Total results found: {totalItemsCount}
-                        </div>
+                        </span>
+                        {keyword && <span style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
+                            ;{"  "} keyword: "{keyword}"
+                        </span>}
                     </div>
 
                     <FormControlLabel

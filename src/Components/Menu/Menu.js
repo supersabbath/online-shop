@@ -37,21 +37,16 @@ class ConnectedMenu extends Component {
   // This method determines from URL whether to highlight a menu item or not
   isMenuItemActive(item, location) {
 
-    // If we are on the main page, and there is a query
-    // string it could be that one of product category menu items 
-    // was clicked, check if that's the case, and if it is current item that was clicked.
     if (location.pathname === "/" && location.search) {
       let queryStringParsed = queryString.parse(
         location.search
       );
 
       return (
-        queryStringParsed.itemCategoryClicked === "true" && item.name === queryStringParsed.category
+        item.name === queryStringParsed.category
       );
     }
 
-    // In other cases, for now, we just compare menu item url and current path
-    // to determine if menu item was clicked.
     return item.url === location.pathname;
   }
 
