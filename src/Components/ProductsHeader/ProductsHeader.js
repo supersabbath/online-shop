@@ -15,17 +15,6 @@ class ProductsHeader extends Component {
         openPriceDialog: false,
     };
 
-
-    getTitle() {
-        let pageTitle = queryString.parse(this.props.location.search).category;
-
-        if (!pageTitle) {
-            pageTitle = "Popular products";
-        }
-
-        return pageTitle;
-    }
-
     render() {
         let { parsedQS, totalItemsCount, updateQueryString } = this.props;
         let usePriceFilter = parsedQS.usePriceFilter === "true";
@@ -33,17 +22,18 @@ class ProductsHeader extends Component {
         let maxPrice = parsedQS.maxPrice || 1000;
         let sortValue = parsedQS.sortValue || "lh";
         let keyword = parsedQS.term;
+        let category = parsedQS.category;
 
         return (
             <div>
                 <div style={{ padding: 10, display: "flex", alignItems: "center" }}>
                     <div style={{ flex: 1, fontSize: 24 }}>
-                        <div>{this.getTitle()}</div>
+                        <div>{category ? "Search results" : "Popular Products"}</div>
                         <span style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
-                            Total results found: {totalItemsCount}
+                            {totalItemsCount} results
                         </span>
-                        {keyword && <span style={{ fontSize: 12, color: "gray", marginTop: 5 }}>
-                            ;{"  "} keyword: "{keyword}"
+                        {keyword && <span style={{ fontWeight: "bold", fontSize: 12, color: "gray", marginTop: 5 }}>
+                            {"  "} for: {keyword}
                         </span>}
                     </div>
 
