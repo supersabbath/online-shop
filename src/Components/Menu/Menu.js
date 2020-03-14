@@ -69,7 +69,8 @@ class ConnectedMenu extends Component {
                 }}
                 key={x.id}
                 activeStyle={{
-                  color: "#4282ad"
+                  color: "#4282ad",
+                  fontWeight: "bold"
                 }}
               >
                 <ListItem dense button>
