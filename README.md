@@ -1,6 +1,6 @@
 # Description
 
-This is implementation of an online shop prototype using React. Back end is not provided.
+This is implementation of an online shop prototype using React.  
 Other technologies used in the project include: Redux, React router, and React Material UI library. 
 
 
