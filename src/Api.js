@@ -40,7 +40,7 @@ class Api {
   }) {
     
     // Turn this into a boolean
-    usePriceFilter = usePriceFilter === "true" ? true : false;
+    usePriceFilter = usePriceFilter === "true" && true;
     
     return new Promise((resolve, reject) => {
 
