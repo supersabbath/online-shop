@@ -31,7 +31,7 @@ class ProductList extends Component {
     let qsAsObject = queryString.parse(this.props.location.search);
 
     // Make request
-    let results = await Api.searchItems({ ...qsAsObject, usePriceFilter: qsAsObject.usePriceFilter === "true" });
+    let results = await Api.searchItems(qsAsObject);
 
     this.setState({
       items: results.data,
