@@ -33,12 +33,15 @@ class Api {
     term = "",
     sortValue = "lh",
     itemsPerPage = 10,
-    usePriceFilter = false,
+    usePriceFilter = "false",
     minPrice = 0,
     maxPrice = 1000,
     page = 1
   }) {
-
+    
+    // Turn this into a boolean
+    usePriceFilter = usePriceFilter === "true" ? true : false;
+    
     return new Promise((resolve, reject) => {
 
       setTimeout(() => {
