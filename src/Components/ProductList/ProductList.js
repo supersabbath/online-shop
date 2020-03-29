@@ -58,9 +58,7 @@ class ProductList extends Component {
     let areSameObjects = (a, b) => {
       if (Object.keys(a).length !== Object.keys(b).length) return false;
       for (let key in a) {
-          if (a.hasOwnProperty(key)) {
               if (a[key] !== b[key]) return false;
-          }
       }
       return true;
     }
