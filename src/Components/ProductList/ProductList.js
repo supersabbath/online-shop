@@ -7,9 +7,8 @@ import Paging from "../Paging/Paging";
 import ProductsHeader from "../ProductsHeader/ProductsHeader"
 
 
-// This component relies on query string to check which products to search for and when.
-// The URL is checked initially and on updates.
-// Child components of this component also rely on the query string.
+// This component is responsible for fetching products. It determines from query string which products to fetch.
+// The URL is checked on initial mount and when URL changes.
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +29,6 @@ class ProductList extends Component {
     // Parse the query string
     let qsAsObject = queryString.parse(this.props.location.search);
 
-    // Make request
     let results = await Api.searchItems(qsAsObject);
 
     this.setState({
