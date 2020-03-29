@@ -53,15 +53,20 @@ class ProductList extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
 
     let currentQS = queryString.parse(this.props.location.search);
-    let oldQS = queryString.parse(prevProps.location.search)
-
-    // Check if the query strings changed.
-    let check1 = Object.entries(currentQS).some(([k, v]) => v !== oldQS[k]);
-    let check2 = Object.entries(oldQS).some(([k, v]) => v !== currentQS[k]);
-    let isDifferent = check1 || check2;
+    let oldQS = queryString.parse(prevProps.location.search);
+    
+    let areSameObjects = (a, b) => {
+      if (Object.keys(a).length !== Object.keys(b).length) return false;
+      for (let key in a) {
+          if (a.hasOwnProperty(key)) {
+              if (a[key] !== b[key]) return false;
+          }
+      }
+      return true;
+    }
 
     // We will refetch products only when query string changes.
-    if (isDifferent) {
+    if (!areSameObjects(currentQS,oldQS )) {
       this.fetchData();
     }
   }
