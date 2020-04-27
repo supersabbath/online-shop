@@ -179,7 +179,7 @@ const dataForTheMenu = [
     children: categories.map((x, i) => {
       return {
         name: x.name,
-        id: 2 + i,
+        id: i,
         url: "/?category=" + x.name,
         icon: x.icon
       };
