@@ -51,7 +51,7 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={page >= totalPages.toString()}
+        disabled={page >= totalPages}
         onClick={() => {
           props.updateQueryString({ page: page + 1 });
         }}
@@ -62,7 +62,7 @@ const Paging = props => {
       <IconButton
         size="small"
         color="primary"
-        disabled={page >= totalPages.toString()}
+        disabled={page >= totalPages}
         onClick={() => {
           props.updateQueryString({ page: totalPages });
         }}
