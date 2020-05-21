@@ -26,8 +26,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 const mapStateToProps = state => {
   return {
-    nrOfItemsInCard: state.cartItems.length,
-    loggedInUser: state.loggedInUser
+    nrOfItemsInCard: state.onlineShop.cartItems.length,
+    loggedInUser: state.onlineShop.loggedInUser
   };
 };
 
