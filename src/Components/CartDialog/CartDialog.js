@@ -15,12 +15,12 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
 const mapStateToProps = state => {
-  return { open: state.showCartDialog, items: state.cartItems };
+  return { open: state.showCartDialog, items: state.onlineShop.cartItems };
 };
 
 class ConnectedCartDialog extends Component {
   render() {
-    let totalPrice = this.props.onlineShop.items.reduce((accumulator, item) => {
+    let totalPrice = this.props.items.reduce((accumulator, item) => {
       return accumulator + item.price * item.quantity;
     }, 0);
 
