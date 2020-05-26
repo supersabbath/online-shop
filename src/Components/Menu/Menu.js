@@ -12,10 +12,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
+import get  from 'lodash/get' 
 
 const mapStateToProps = state => {
   return {
-    showMenu: state.showMenu,
+    showMenu: get(state, 'onlineShop.showMenu'),
   };
 };
 

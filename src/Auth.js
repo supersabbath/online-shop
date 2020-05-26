@@ -1,16 +1,10 @@
 // Simulate authentication service
-const Auth = {
-  _isAuthenticated: false,
 
-  authenticate(name, pass, cb) {
-    this._isAuthenticated = true;
-    setTimeout(
-      () =>
-        cb({
-          name: name
-        }),
-      100
-    );
+import "firebase/auth";
+
+const Auth = {
+  authenticate: async (name, pass)  => {
+
   },
 
   signout(cb) {

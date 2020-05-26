@@ -14,23 +14,14 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCartOutlined";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-const mapStateToProps = state => {
-  return { open: state.showCartDialog, items: state.onlineShop.cartItems };
-};
 
 class ConnectedCartDialog extends Component {
   render() {
-    let totalPrice = this.props.items.reduce((accumulator, item) => {
-      return accumulator + item.price * item.quantity;
-    }, 0);
-
     return (
       <div>
         <Dialog
           open={this.props.open}
-          onClose={() => {
-            this.props.dispatch(showCartDlg(false));
-          }}
+          onClose={this.props.closeCartDialog}
         >
           <AppBar position="static" style={{ backgroundColor: "#3863aa" }}>
             <Toolbar>
@@ -73,15 +64,14 @@ class ConnectedCartDialog extends Component {
               }}
             >
               {" "}
-              Total Price: {totalPrice} $
+              Total Price: {this.props.totalPrice} $
             </div>
             <Button
               variant="outlined"
               color="primary"
-              disabled={totalPrice === 0}
+              disabled={this.props.totalPrice === 0}
               onClick={() => {
-                this.props.dispatch(showCartDlg(false));
-                this.props.dispatch(setCheckedOutItems(this.props.items));
+                this.props.onCheckOut(this.props.items)
                 this.props.history.push("/order");
               }}
             >
@@ -93,5 +83,27 @@ class ConnectedCartDialog extends Component {
     );
   }
 }
-const CartDialog = withRouter(connect(mapStateToProps)(ConnectedCartDialog));
+
+const mapStateToProps = state => (
+  { 
+    open: state.onlineShop.showCartDialog, 
+    items: state.onlineShop.cartItems,
+    totalPrice: state.onlineShop.cartItems.reduce((accumulator, item) => {
+      return accumulator + item.price * item.quantity;
+    }, 0),
+  }
+);
+
+const mapDispatchToProps = (dispatch, state) => {
+  return {
+    // dispatching plain actions
+    closeCartDialog: () => dispatch(showCartDlg(false)),
+    onCheckOut: (items) => {
+      dispatch(showCartDlg(false));
+      dispatch(setCheckedOutItems(items));
+    },
+  }
+}
+
+const CartDialog = withRouter(connect(mapStateToProps, mapDispatchToProps)(ConnectedCartDialog));
 export default CartDialog;

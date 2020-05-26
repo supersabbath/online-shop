@@ -31,3 +31,7 @@ export const setLoggedInUser = user => ({
 export const logout = () => ({
   type: CONSTANTS.LOGOUT,
 });
+export const login = (user,pw) => ({
+  type: CONSTANTS.SET_LOGGED_IN_USER,
+  payload: user
+});

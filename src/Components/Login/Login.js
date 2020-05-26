@@ -7,7 +7,8 @@ import Button from "@material-ui/core/Button";
 import { setLoggedInUser } from "../../Redux/Actions";
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
+import  { signin , signup } from './../../Redux/Commands/auth';
+import { useFirebase, isLoaded, isEmpty } from 'react-redux-firebase'
 
 class ConnectedLogin extends Component {
   state = {
@@ -76,24 +77,33 @@ class ConnectedLogin extends Component {
             variant="outlined"
             color="primary"
             onClick={() => {
-
-              // Simulate authentication call
-              Auth.authenticate(this.state.userName, this.state.pass, user => {
-
+  
+              this.props.login(this.state.userName, this.state.pass, user => {
+                console.debug('aqyu')
                 if (!user) {
                   this.setState({ wrongCred: true });
                   return;
                 }
-
+  
                 this.props.dispatch(setLoggedInUser({ name: user.name }));
                 this.setState(() => ({
                   redirectToReferrer: true
                 }));
-              });
+              })
             }}
           >
             Log in
           </Button>
+          <Button
+          style={{ marginTop: 20, width: 200 }}
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            this.props.signup(this.state.userName, this.state.pass);
+          }}
+        >
+          Crear una cuenta
+        </Button>
           {this.state.wrongCred && (
             <div style={{ color: "red" }}>Wrong username and/or password</div>
           )}
@@ -102,6 +112,17 @@ class ConnectedLogin extends Component {
     );
   }
 }
-const Login = withRouter(connect()(ConnectedLogin));
 
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = (dispatch, state) => {
+  return {
+    // dispatching plain actions
+    login: (user, pw, cb) => dispatch(signin(user,pw,cb)),
+    signup: (user, pw) => dispatch(signup(user,pw)),
+  }
+};
+
+const Login = withRouter(connect(mapStateToProps,mapDispatchToProps)(ConnectedLogin));
 export default Login;

@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.1.1",
     "@material-ui/icons": "^3.0.1",
-    "firebase": "^7.14.4",
+    "firebase": "^7.14.5",
     "query-string": "^6.1.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -15,6 +15,7 @@
     "react-scripts": "^3.4.0",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.8",
+    "redux-firestore": "^0.13.0",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
