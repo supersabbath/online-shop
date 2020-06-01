@@ -10,7 +10,7 @@ import { createFirestoreInstance } from "redux-firestore";
 
 const rrfConfig = {
   userProfile: "users",
-  useFirestoreForProfile: true,
+  // useFirestoreForProfile: true,
 };
 
 const rrfProps = {
@@ -22,9 +22,11 @@ const rrfProps = {
 
 let app = (
   <Provider store={store}>
+  <ReactReduxFirebaseProvider {...rrfProps}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
+      </ReactReduxFirebaseProvider>
   </Provider>
 );
 

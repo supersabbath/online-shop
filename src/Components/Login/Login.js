@@ -77,7 +77,6 @@ class ConnectedLogin extends Component {
             variant="outlined"
             color="primary"
             onClick={() => {
-  
               this.props.login(this.state.userName, this.state.pass, user => {
                 console.debug('aqyu')
                 if (!user) {
